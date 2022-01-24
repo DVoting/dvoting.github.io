@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className={styles.root}>
       <Navbar />
-      Voting App - Client
+      Voting App - Client...
     </div>
   );
 };
