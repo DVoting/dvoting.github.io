@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import { Web3Context } from "../../context/Web3Context";
-import { getWeb3 } from "../../utils/web3";
+import { Web3Context } from "../context/Web3Context";
+import { getWeb3 } from "../utils/web3";
 
 const Home = () => {
   const { walletId, setWalletId } = useContext(Web3Context);
@@ -19,7 +18,6 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar />
       Voting App - Client...
     </div>
   );
