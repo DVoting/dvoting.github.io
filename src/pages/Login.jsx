@@ -14,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
-  const { setUser, setIsAuth } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   useEffect(() => {
     if ("token" in localStorage) {
@@ -26,6 +26,8 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
+    const formData = new FormData(e.target);
+
     try {
       const data = await login({
         email,
@@ -33,8 +35,6 @@ const Login = () => {
       });
 
       setUser(data);
-
-      setIsAuth(true);
     } catch (error) {
       console.log(error);
 

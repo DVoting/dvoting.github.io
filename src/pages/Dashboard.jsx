@@ -5,8 +5,6 @@ import { UserContext } from "../context/UserContext";
 const Dashboard = () => {
   const { user } = useContext(UserContext);
 
-  console.log(user);
-
   return (
     <div>
       User Dashboard

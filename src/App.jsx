@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Navbar } from "./components";
 import { UserProvider } from "./context/UserContext";
-import { Dashboard, Home, Login, SignUp } from "./pages";
+import { Dashboard, Election, Home, Login, SignUp } from "./pages";
 import PrivateRoute from "./utils/PrivateRoute";
 
 const App = () => {
@@ -24,6 +24,7 @@ const App = () => {
               {/* All Private routes here */}
               <Route path='/' element={<PrivateRoute />}>
                 <Route exact path='/dashboard' element={<Dashboard />} />
+                <Route exact path='/election' element={<Election />} />
               </Route>
             </Routes>
           </Container>
