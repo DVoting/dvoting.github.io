@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
+import { GlobalContext } from "../context/GlobalContext";
+import { NavBar } from "../components"
+import { Loader } from "../containers";
 
 const Dashboard = () => {
-  const { user } = useContext(UserContext);
+  const { user, loading, setLoading } = useContext(GlobalContext);
+
+  useEffect(() => {
+    if (user === null) setLoading(true)
+    else setLoading(false)
+  }, [user])
 
   return (
-    <div>
-      User Dashboard
-      {JSON.stringify(user)}
-    </div>
+    <>
+      {
+        loading ?
+          <Loader /> :
+          <>
+            <NavBar />
+            <div>
+              User Dashboard
+              {JSON.stringify(user)}
+            </div >
+          </>
+      }</>
   );
 };
 

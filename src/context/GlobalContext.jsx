@@ -1,22 +1,24 @@
 import React, { createContext, useState } from "react";
 
-export const UserContext = createContext({
+export const GlobalContext = createContext({
   user: null,
   walletId: null,
   isAuth: false,
+  loading: false
 });
 
-export const UserProvider = (props) => {
+export const GlobalProvider = (props) => {
   const [walletId, setWalletId] = useState("");
   const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   return (
-    <UserContext.Provider
-      value={{ user, setUser, walletId, setWalletId, isAuth, setIsAuth }}
+    <GlobalContext.Provider
+      value={{ user, setUser, walletId, setWalletId, isAuth, setIsAuth, loading, setLoading }}
     >
       {props.children}
-    </UserContext.Provider>
+    </GlobalContext.Provider>
   );
 };
 
