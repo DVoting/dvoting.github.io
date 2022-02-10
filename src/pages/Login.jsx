@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { FormContainer, Loader, Message } from "../containers";
 import { login } from "../services/userActions.js";
+import { UserContext } from "../context/UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,25 +14,35 @@ const Login = () => {
   const navigate = useNavigate();
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
+  const { setUser, setIsAuth } = useContext(UserContext);
+
   useEffect(() => {
-    if ("userInfo" in localStorage) {
-      navigate("/homepage", { replace: true });
+    if ("token" in localStorage) {
+      navigate("/dashboard", { replace: true });
     }
   });
 
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if ("error" in localStorage) {
-      localStorage.removeItem("error");
-      setError(false);
+
+    try {
+      const data = await login({
+        email,
+        password,
+      });
+
+      setUser(data);
+
+      setIsAuth(true);
+    } catch (error) {
+      console.log(error);
+
+      if (error.response && error.response.data.message)
+        setError(error.response.data.message);
+      else setError(error.message);
     }
-    await login({
-      email,
-      password,
-    });
     setLoading(false);
-    if ("error" in localStorage) setError(localStorage.getItem("error"));
   };
 
   const resetHandler = (e) => {
@@ -47,39 +58,39 @@ const Login = () => {
         {loading ? (
           <Loader />
         ) : error ? (
-          <Message variant="danger">{error}</Message>
+          <Message variant='danger'>{error}</Message>
         ) : (
           <></>
         )}
         <Form onSubmit={submitHandler} onReset={resetHandler}>
-          <Form.Group controlId="email">
+          <Form.Group controlId='email'>
             <Form.Label>Email Address</Form.Label>
             <Form.Control
-              type="email"
-              placeholder="Enter email"
+              type='email'
+              placeholder='Enter email'
               value={email}
               required
               onChange={(e) => setEmail(e.target.value)}
             ></Form.Control>
-            <Form.Group controlId="password">
+            <Form.Group controlId='password'>
               <Form.Label>Password</Form.Label>
               <Form.Control
-                type="password"
-                placeholder="Enter password"
+                type='password'
+                placeholder='Enter password'
                 value={password}
                 required
                 onChange={(e) => setPassword(e.target.value)}
               ></Form.Control>
             </Form.Group>
           </Form.Group>
-          <Row className="py-3">
+          <Row className='py-3'>
             <Col>
-              <Button type="submit" variant="primary">
+              <Button type='submit' variant='primary'>
                 Sign In
               </Button>
             </Col>
             <Col>
-              <Button type="reset" variant="primary">
+              <Button type='reset' variant='primary'>
                 Reset
               </Button>
             </Col>

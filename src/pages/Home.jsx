@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import { Web3Context } from "../context/Web3Context";
+import { UserContext } from "../context/UserContext";
 import { getWeb3 } from "../utils/web3";
 
 const Home = () => {
-  const { walletId, setWalletId } = useContext(Web3Context);
+  const { walletId, setWalletId } = useContext(UserContext);
   useEffect(() => {
     (async () => {
       const web3 = getWeb3();
@@ -16,11 +16,7 @@ const Home = () => {
     })();
   }, [walletId]);
 
-  return (
-    <div>
-      Voting App - Client...
-    </div>
-  );
+  return <div>Voting App - Client...</div>;
 };
 
 export default Home;
