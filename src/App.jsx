@@ -6,13 +6,9 @@ import { Dashboard, Election, Home, Login, SignUp } from "./pages";
 import PrivateRoute from "./utils/PrivateRoute";
 
 const App = () => {
-  const init = () => {
-    localStorage.removeItem("error");
-  };
   return (
     <Router>
       <Navbar />
-      {init()}
       <main className='App py-3 bg-gray'>
         <UserProvider>
           <Container>

@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext";
 import { fetchUserDetails } from "../services/userActions";
 
 const PrivateRoute = () => {
-  const { setUser } = useContext(UserContext);
+  const { setUser, setIsAuth } = useContext(UserContext);
 
   const token = localStorage.getItem("token");
 
@@ -14,13 +14,14 @@ const PrivateRoute = () => {
         const data = await fetchUserDetails();
 
         setUser(data);
+        setIsAuth(true);
       }
     })();
   }, [token]);
 
   console.log("via private route");
 
-  return token ? <Outlet /> : <Navigate to='/' />;
+  return token ? <Outlet /> : <Navigate to='/login' />;
 };
 
 export default PrivateRoute;
