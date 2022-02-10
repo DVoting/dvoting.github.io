@@ -1,9 +1,11 @@
 import React, { useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
+import { GlobalContext } from "../context/GlobalContext";
 import { getWeb3 } from "../utils/web3";
+import { NavBar } from "../components";
+import { Loader } from "../containers";
 
 const Home = () => {
-  const { walletId, setWalletId } = useContext(UserContext);
+  const { walletId, setWalletId, loading } = useContext(GlobalContext);
   useEffect(() => {
     (async () => {
       const web3 = getWeb3();
@@ -16,7 +18,18 @@ const Home = () => {
     })();
   }, [walletId]);
 
-  return <div>Voting App - Client...</div>;
+  return (
+    <>
+      {loading ? <Loader /> :
+        <>
+          <NavBar />
+          <div>
+            Voting App - Client...
+          </div>
+        </>
+      }
+    </>
+  );
 };
 
 export default Home;
