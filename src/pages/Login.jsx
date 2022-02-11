@@ -64,18 +64,18 @@ const Login = () => {
                   placeholder='Enter email'
                   value={email}
                   required
-                  onChange={(e) => {setError(false); setEmail(e.target.value)}}
+                  onChange={(e) => { setError(false); setEmail(e.target.value) }}
                 ></Form.Control>
-                <Form.Group controlId='password'>
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type='password'
-                    placeholder='Enter password'
-                    value={password}
-                    required
-                    onChange={(e) => {setError(false); setPassword(e.target.value)}}
-                  ></Form.Control>
-                </Form.Group>
+              </Form.Group>
+              <Form.Group controlId='password'>
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type='password'
+                  placeholder='Enter password'
+                  value={password}
+                  required
+                  onChange={(e) => { setError(false); setPassword(e.target.value) }}
+                ></Form.Control>
               </Form.Group>
               <Row className='py-3'>
                 <Col>

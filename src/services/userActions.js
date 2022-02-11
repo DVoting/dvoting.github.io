@@ -39,3 +39,20 @@ export const fetchUserDetails = async () => {
     return err;
   }
 };
+
+export const signup = async (user) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.post(`${BASE_URL}/users`, user, config);
+
+    // storing only the token in localstorage
+    localStorage.setItem("token", res.data.token);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
