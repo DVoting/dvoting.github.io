@@ -142,7 +142,7 @@ const Login = () => {
               <Row>
                 <Col>
                   Already registered?{" "}
-                  <Link to={redirect ? `/signup?redirect=${redirect}` : "/signup"}>
+                  <Link to={redirect ? `/login?redirect=${redirect}` : "/signup"}>
                     Login Here
                   </Link>
                 </Col>
