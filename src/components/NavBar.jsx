@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { LinkContainer } from "react-router-bootstrap"
 import { Navbar, Nav, Container, NavItem } from 'react-bootstrap';
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
+import { VscSignIn } from 'react-icons/vsc';
 import { GlobalContext } from "../context/GlobalContext";
 
 const NavBar = () => {
@@ -35,12 +36,20 @@ const NavBar = () => {
                   </LinkContainer>
                 </NavItem>
               </> :
+              <>
               <LinkContainer to='/login'>
                 <Nav.Link>
                   <FiLogIn />{" "}
                   Log In
                 </Nav.Link>
               </LinkContainer>
+              <LinkContainer to='/signup'>
+                <Nav.Link>
+                  <VscSignIn />{" "}
+                  SignUp
+                </Nav.Link>
+              </LinkContainer>
+              </>
             }
           </Nav>
         </Container>
