@@ -20,14 +20,14 @@ const Home = () => {
 
   return (
     <>
-      {loading ? <Loader /> :
+      {loading ? (
+        <Loader />
+      ) : (
         <>
           <NavBar />
-          <div>
-            Voting App - Client...
-          </div>
+          <div>Voting App - Client...</div>
         </>
-      }
+      )}
     </>
   );
 };

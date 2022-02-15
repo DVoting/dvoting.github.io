@@ -1,7 +1,18 @@
 import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Dashboard, Election, Home, Login, SignUp, ForgotPassword, NotFound } from "./pages";
+
+import { NavBar } from "./components";
+import {
+  Dashboard,
+  Home,
+  Login,
+  SignUp,
+  ElectionDetails,
+  CreateElection,
+  ForgotPassword, NotFound
+} from "./pages";
+
 import PrivateRoute from "./utils/PrivateRoute";
 
 const App = () => {
@@ -19,7 +30,16 @@ const App = () => {
             {/* All Private routes here */}
             <Route path='/' element={<PrivateRoute />}>
               <Route exact path='/dashboard' element={<Dashboard />} />
-              <Route exact path='/election' element={<Election />} />
+              <Route
+                exact
+                path='/elections/:id'
+                element={<ElectionDetails />}
+              />
+              <Route
+                exact
+                path='/create-election'
+                element={<CreateElection />}
+              />
             </Route>
           </Routes>
         </Container>
