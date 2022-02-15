@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { NavBar } from "./components";
@@ -22,6 +23,7 @@ const App = () => {
     <Router>
       <main className='App py-3 bg-gray'>
         <Container>
+          {/*<NavBar/>*/}
           <Routes>
             <Route path='*' element={<NotFound />} />
             <Route exact path='/' element={<Home />} />
