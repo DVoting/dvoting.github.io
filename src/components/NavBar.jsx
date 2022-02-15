@@ -1,12 +1,15 @@
 import React, { useContext } from "react";
 import { LinkContainer } from "react-router-bootstrap"
-import { Navbar, Nav, Container, NavItem } from 'react-bootstrap';
+import {Navbar, Nav, Container, NavItem, NavDropdown} from 'react-bootstrap';
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
 import { VscSignIn } from 'react-icons/vsc';
+import {BiWalletAlt} from 'react-icons/bi'
 import { GlobalContext } from "../context/GlobalContext";
+import {initWallet, connectWallet, disconnectWallet} from "../utils/wallet";
 
 const NavBar = () => {
   const { user, setUser, isAuth, setIsAuth, setLoading } = useContext(GlobalContext);
+  const {walletId, setWalletId} = useContext(GlobalContext)
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
@@ -14,6 +17,8 @@ const NavBar = () => {
     setUser(null);
     setLoading(false);
   }
+
+  React.useEffect(()=>initWallet(setWalletId),[])
 
   return (
     <header>
@@ -50,6 +55,19 @@ const NavBar = () => {
                 </Nav.Link>
               </LinkContainer>
               </>
+            }
+            {
+              walletId === '' ?
+                <Nav.Link onClick={()=>connectWallet(setWalletId)}>
+                  <BiWalletAlt size={20}/>{" "}
+                  Connect Wallet
+                </Nav.Link>
+              :
+                <NavDropdown title={walletId.slice(0,4)+'...'+walletId.slice(-4)}>
+                  <NavDropdown.Item onClick={()=>disconnectWallet(setWalletId)}>
+                    Disconnect
+                  </NavDropdown.Item>
+                </NavDropdown>
             }
           </Nav>
         </Container>
