@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import { NavBar } from "./components";
 import {
   Dashboard,
@@ -8,6 +10,7 @@ import {
   SignUp,
   ElectionDetails,
   CreateElection,
+  ForgotPassword, NotFound
 } from "./pages";
 
 import PrivateRoute from "./utils/PrivateRoute";
@@ -18,9 +21,11 @@ const App = () => {
       <main className='App py-3 bg-gray'>
         <Container>
           <Routes>
+            <Route path='*' element={<NotFound />} />
             <Route exact path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
+            <Route path='/forgotpassword' element={<ForgotPassword />} />
 
             {/* All Private routes here */}
             <Route path='/' element={<PrivateRoute />}>
