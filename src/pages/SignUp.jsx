@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Form, Row, Col, Button, ButtonGroup, ToggleButton } from "react-bootstrap";
 import { FormContainer, Loader, Message } from "../containers";
 import { NavBar } from "../components";
-import { userTypes } from "../data";
 import { signup } from "../services/userActions.js";
 import { GlobalContext } from "../context/GlobalContext";
 
@@ -106,26 +105,6 @@ const Login = () => {
                   required
                   onChange={(e) => { setError(false); setPassword(e.target.value) }}
                 ></Form.Control>
-              </Form.Group>
-              <Form.Group controlId='userType'>
-                <Form.Label>User Type</Form.Label>
-                <br />
-                <ButtonGroup>
-                  {userTypes.map((radio, idx) => (
-                    <ToggleButton
-                      key={idx}
-                      id={`radio-${idx}`}
-                      type="radio"
-                      variant="outline-dark"
-                      name="radio"
-                      value={radio.value}
-                      checked={userType === radio.value}
-                      onChange={(e) => setUserType(e.currentTarget.value)}
-                    >
-                      {radio.name}
-                    </ToggleButton>
-                  ))}
-                </ButtonGroup>
               </Form.Group>
               <Row className='py-3'>
                 <Col>
