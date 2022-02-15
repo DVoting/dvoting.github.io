@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Container } from "react-bootstrap";
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { NavBar } from "./components";
@@ -14,6 +15,7 @@ import {
 } from "./pages";
 
 import PrivateRoute from "./utils/PrivateRoute";
+import {ToastContainer} from "react-toastify";
 
 const App = () => {
   return (
@@ -44,6 +46,7 @@ const App = () => {
           </Routes>
         </Container>
       </main>
+      <ToastContainer/>
     </Router>
   );
 };

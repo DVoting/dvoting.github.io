@@ -1,4 +1,6 @@
 import web3 from "./web3";
+import {toast} from "react-toastify";
+import Message from "./Message";
 
 export function initWallet(setWalletId){
 	let walletDisabled = JSON.parse(localStorage.getItem('walletDisabled'))??false
@@ -27,12 +29,22 @@ export async function disconnectWallet(setWalletId){
 
 export async function connectWallet(setWalletId){
 	if (!window.ethereum){
-		console.log("Toast: Provider Error")
+		toast.error(Message("Provider Error", "MetaMask is NOT installed!"), {
+			position: toast.POSITION.BOTTOM_RIGHT,
+			autoClose: 5000,
+			toastId: 'providerError',
+			closeOnClick: true,
+			pauseOnHover: false,
+			draggable: false,
+		});
 		return
 	}
+
 	localStorage.setItem("walletDisabled",false)
-	web3.eth.getAccounts()
-		.then(accounts => {
-			setWalletId(accounts[0] || '')
-		}).catch(console.log)
+	try {
+		const accounts = await window.ethereum.request({method: 'eth_requestAccounts'});
+		setWalletId(accounts[0] || '')
+	} catch (e) {
+		console.log(e)
+	}
 }
