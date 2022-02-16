@@ -13,7 +13,6 @@ const Home = () => {
         <Loader />
       ) : (
         <>
-          <NavBar />
           <div>Voting App - Client...</div>
         </>
       )}
