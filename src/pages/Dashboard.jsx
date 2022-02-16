@@ -59,7 +59,6 @@ const Dashboard = () => {
           <Loader />
         :
           <React.Fragment>
-            <NavBar />
             <Container>
               <Row>
                 <Col md={12} lg={4}>
