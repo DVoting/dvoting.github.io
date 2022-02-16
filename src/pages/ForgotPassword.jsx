@@ -37,9 +37,11 @@ const ForgotPassword = () => {
     switch (state) {
       case "1":
         setLoading(true);
+        const purpose = "OTP for Forgot Password";
         try {
           await sendOTP({
             email,
+            purpose
           });
           setState("2");
         } catch (error) {
