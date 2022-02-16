@@ -1,14 +1,14 @@
 import axios from "axios";
 import { BASE_URL } from "../constants";
 
-export const sendOTP = async (email) => {
+export const sendOTP = async (emailAndPurpose) => {
     try {
         const config = {
             headers: {
                 "Content-Type": "application/json",
             },
         };
-        const res = await axios.put(`${BASE_URL}/otp`, email, config);
+        const res = await axios.put(`${BASE_URL}/otp`, emailAndPurpose, config);
         return res.data;
     } catch (error) {
         throw error;

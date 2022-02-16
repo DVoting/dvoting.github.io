@@ -56,3 +56,22 @@ export const signup = async (user) => {
     throw error;
   }
 };
+
+export const updateUserVerified = async (user) => {
+  try {
+  const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const res = await axios.put(`${BASE_URL}/users/verify`, user, config);
+
+    // storing only the token in localstorage
+    localStorage.setItem("token", res.data.token);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
