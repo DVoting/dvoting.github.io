@@ -1,8 +1,8 @@
 import React from "react";
 import { GlobalContext } from "../context/GlobalContext";
-import { NavBar } from "../components";
 import { Loader } from "../containers";
 import {Link} from "react-router-dom"
+import {CreateOrganiserModal} from "../modals";
 import {
   Button,
   Card,
@@ -21,6 +21,7 @@ import {getAppearedElections, getAppliedElections, getApprovedElections} from ".
 
 const Dashboard = () => {
   const { user, loading, setLoading } = React.useContext(GlobalContext);
+  const [showModal, setShowModal] = React.useState(false)
   const [voter, setVoter] = React.useState(null)
   const [appliedElections, setAppliedElections] = React.useState([])
   const [approvedElections, setApprovedElections] = React.useState([])
@@ -80,23 +81,42 @@ const Dashboard = () => {
                             }
                           </ListGroup.Item>
                           <ListGroup.Item>UVID: {user.uniqueVoterId}</ListGroup.Item>
-                        </ListGroup>
-                        {voter &&
+                          {voter &&
+                            <ListGroup.Item>
+                              Wallet:
+                              {' '}
+                              {
+                                voter.hasWallet ?
+                                  <span className="text-success">assigned</span>
+                                :
+                                  <Link to="#">generate</Link>
+                              }
+                            </ListGroup.Item>
+                          }
                           <ListGroup.Item>
-                            Wallet:
-                            {' '}
-                            {
-                              voter.hasWallet ?
-                                <span className="text-success">assigned</span>
-                              :
-                                <Link to="#">generate</Link>
-                            }
+                            <Link to="/changePassword">Change Password</Link>
                           </ListGroup.Item>
-                        }
-                        <ListGroup.Item>
-                          <Link to="/changePassword">Change Password</Link>
-                        </ListGroup.Item>
+                        </ListGroup>
                       </React.Fragment>
+                    }
+                  </Card>
+                  <Card style={{marginTop:"5%", marginBottom:"5%"}}>
+                    {user &&
+                      <ListGroup variant="flush">
+                        {user.userType === 'voter' &&
+                            <React.Fragment>
+                              <ListGroup.Item onClick={()=>setShowModal(true)} style={{cursor:"pointer"}}>
+                                Register an Organisation
+                              </ListGroup.Item>
+                              <CreateOrganiserModal show={showModal} setShow={setShowModal}/>
+                            </React.Fragment>
+                        }
+                        {user.userType === 'organiser' &&
+                          <Link to="#">
+                            <ListGroup.Item>Manage Organisations</ListGroup.Item>
+                          </Link>
+                        }
+                      </ListGroup>
                     }
                   </Card>
                 </Col>
