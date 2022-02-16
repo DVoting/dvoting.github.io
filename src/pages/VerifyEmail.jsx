@@ -10,6 +10,7 @@ import {
 import { verifyEmailStates } from "../data";
 import { sendOTP, verifyOTP } from "../services/otpActions";
 import { updateUserVerified } from "../services/userActions";
+import { useNavigate } from "react-router-dom";
 
 const VerifyEmail = () => {
 
@@ -21,13 +22,21 @@ const VerifyEmail = () => {
     const [error, setError] = useState(false);
     const [success, setSuccess] = useState(false);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        if (user) setEmail(user.email)
+        setLoading(true);
+        if (user) {
+            setEmail(user.email)
+            setLoading(false)
+            if (user.emailVerified) {
+                navigate("/dashboard", { replace: true });
+            }
+        }
     }, [user])
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log('pressed')
         setError(false);
         setSuccess(false);
         switch (state) {
@@ -60,6 +69,7 @@ const VerifyEmail = () => {
                     });
                     setSuccess("Email has been verified");
                     setUser(updatedUser);
+                    navigate("/dashboard", { replace: true });
                 } catch (error) {
                     console.log(error);
                     if (error.response && error.response.data.message)

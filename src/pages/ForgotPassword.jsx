@@ -5,7 +5,8 @@ import { FormContainer, Loader, Message } from "../containers";
 import { NavBar } from "../components";
 import { forgotPasswordStates } from "../data";
 import { GlobalContext } from "../context/GlobalContext";
-import { sendOTP, updatePasword, verifyOTP } from "../services/otpActions";
+import { sendOTP, verifyOTP } from "../services/otpActions";
+import { updatePasword } from "../services/userActions";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
