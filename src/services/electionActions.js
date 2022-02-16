@@ -28,3 +28,30 @@ export const createElection = async (details, organiser) => {
     throw err;
   }
 };
+
+export async function getAppliedElections(uvid) {
+  try {
+    return []
+  } catch (e) {
+    console.log(e)
+    return null
+  }
+}
+
+export async function getApprovedElections(uvid) {
+  try {
+    return []
+  } catch (e) {
+    console.log(e)
+    return null
+  }
+}
+
+export async function getAppearedElections(uvid) {
+  try {
+    return []
+  } catch (e) {
+    console.log(e)
+    return null
+  }
+}
