@@ -17,7 +17,7 @@ const Login = () => {
   const { isAuth, setIsAuth, loading, setLoading } = useContext(GlobalContext);
 
   useEffect(() => {
-    setIsAuth("token" in localStorage)
+    setIsAuth("token" in localStorage);
     if (isAuth) {
       setLoading(false);
       navigate("/dashboard", { replace: true });
@@ -30,9 +30,9 @@ const Login = () => {
     try {
       await login({
         email,
-        password
+        password,
       });
-      setIsAuth("token" in localStorage)
+      setIsAuth("token" in localStorage);
     } catch (error) {
       console.log(error);
       if (error.response && error.response.data.message)
@@ -50,69 +50,81 @@ const Login = () => {
 
   return (
     <>
-      {loading ? <Loader /> : <>
-        <NavBar />
-        <div>
-          <FormContainer>
-            <h1>Login</h1>
-            {error && <Message variant='danger'>{error}</Message>}
-            <Form onSubmit={submitHandler} onReset={resetHandler}>
-              <Form.Group controlId='email'>
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                  type='email'
-                  placeholder='Enter email'
-                  value={email}
-                  required
-                  onChange={(e) => { setError(false); setEmail(e.target.value) }}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group controlId='password'>
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type='password'
-                  placeholder='Enter password'
-                  value={password}
-                  required
-                  onChange={(e) => { setError(false); setPassword(e.target.value) }}
-                ></Form.Control>
-              </Form.Group>
-              <Row className='py-3'>
-                <Col>
-                  <Button type='submit' variant='primary'>
-                    Sign In
-                  </Button>
-                </Col>
-                <Col>
-                  <Button type='reset' variant='primary'>
-                    Reset
-                  </Button>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  New User?{" "}
-                  <Link to={redirect ? `/signup?redirect=${redirect}` : "/signup"}>
-                    Register Here
-                  </Link>
-                </Col>
-                <Col>
-                  Forgot Password?{" "}
-                  <Link
-                    to={
-                      redirect
-                        ? `/forgotpassword?redirect=${redirect}`
-                        : "/forgotpassword"
-                    }
-                  >
-                    Click here
-                  </Link>
-                </Col>
-              </Row>
-            </Form>
-          </FormContainer>
-        </div>
-      </>}
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          {/* <NavBar /> */}
+          <div>
+            <FormContainer>
+              <h1>Login</h1>
+              {error && <Message variant='danger'>{error}</Message>}
+              <Form onSubmit={submitHandler} onReset={resetHandler}>
+                <Form.Group controlId='email'>
+                  <Form.Label>Email Address</Form.Label>
+                  <Form.Control
+                    type='email'
+                    placeholder='Enter email'
+                    value={email}
+                    required
+                    onChange={(e) => {
+                      setError(false);
+                      setEmail(e.target.value);
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId='password'>
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type='password'
+                    placeholder='Enter password'
+                    value={password}
+                    required
+                    onChange={(e) => {
+                      setError(false);
+                      setPassword(e.target.value);
+                    }}
+                  ></Form.Control>
+                </Form.Group>
+                <Row className='py-3'>
+                  <Col>
+                    <Button type='submit' variant='primary'>
+                      Sign In
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button type='reset' variant='primary'>
+                      Reset
+                    </Button>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    New User?{" "}
+                    <Link
+                      to={redirect ? `/signup?redirect=${redirect}` : "/signup"}
+                    >
+                      Register Here
+                    </Link>
+                  </Col>
+                  <Col>
+                    Forgot Password?{" "}
+                    <Link
+                      to={
+                        redirect
+                          ? `/forgotpassword?redirect=${redirect}`
+                          : "/forgotpassword"
+                      }
+                    >
+                      Click here
+                    </Link>
+                  </Col>
+                </Row>
+              </Form>
+            </FormContainer>
+          </div>
+        </>
+      )}
     </>
   );
 };

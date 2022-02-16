@@ -1,15 +1,13 @@
 import React, { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
-import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
-import { convertToUnixTimeStamp } from "../utils";
-import axios from "axios";
-import { GlobalContext } from "../context/GlobalContext";
-import { createElection } from "../services/electionActions";
+import "react-datetime-picker/dist/DateTimePicker.css";
+import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
 import { Navigate } from "react-router-dom";
 import { Message } from "../containers";
+import { GlobalContext } from "../context/GlobalContext";
+import { createElection } from "../services/electionActions";
 
 /*
     Title
@@ -64,9 +62,18 @@ const CreateElection = () => {
   }
 
   return (
-    <div>
-      <Form onSubmit={handleSave} onReset={handleDiscard}>
-        <Form.Group className='mb-3' controlId='electionTitle'>
+    <div
+      className='d-flex flex-column justify-content-center align-items-center'
+      style={{ height: "70vh" }}
+    >
+      <h2 className='my-5'>Create an Election</h2>
+      <Form
+        onSubmit={handleSave}
+        onReset={handleDiscard}
+        className='bg-light rounded px-4 py-4'
+        style={{ background: "pink", minWidth: "40%" }}
+      >
+        <Form.Group className='my-4' controlId='electionTitle'>
           <Form.Label>Title</Form.Label>
           <Form.Control
             type='text'
@@ -80,10 +87,11 @@ const CreateElection = () => {
           />
         </Form.Group>
 
-        <div>
+        <div className='my-4'>
           <label>Election Start Time</label>
           <br />
           <DateTimePicker
+            className='w-100'
             onChange={(newValue) => {
               setDetails((prev) => {
                 return { ...prev, openTimestamp: newValue };
@@ -91,13 +99,15 @@ const CreateElection = () => {
             }}
             value={details.openTimestamp}
             minDate={new Date()}
+            required={true}
           />
         </div>
 
-        <div>
+        <div className='my-4'>
           <label>Election End Time</label>
           <br />
           <DateTimePicker
+            className='w-100'
             onChange={(newValue) => {
               setDetails((prev) => {
                 return { ...prev, closeTimestamp: newValue };
@@ -110,13 +120,15 @@ const CreateElection = () => {
 
         <br />
 
-        <Button variant='primary' type='reset'>
-          Discard
-        </Button>
+        <div className='d-flex justify-content-center'>
+          <Button variant='secondary' type='reset' className='mx-4 px-3'>
+            Discard
+          </Button>
 
-        <Button variant='primary' type='submit'>
-          Save
-        </Button>
+          <Button variant='success' type='submit' className='mx-4 px-4'>
+            Save
+          </Button>
+        </div>
       </Form>
 
       {error && <Message variant='danger'>{error}</Message>}
