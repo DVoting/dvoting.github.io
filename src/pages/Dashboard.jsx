@@ -17,12 +17,13 @@ import {
   ListGroup
 } from "react-bootstrap";
 import {getVoterById} from "../services/voterServices";
-import {getAppearedElections, getAppliedElections, getApprovedElections} from "../services/electionActions";
+import {getElections} from "../services/electionActions";
 
 const Dashboard = () => {
   const { user, loading, setLoading } = React.useContext(GlobalContext);
   const [showModal, setShowModal] = React.useState(false)
   const [voter, setVoter] = React.useState(null)
+  const [invitedElections, setInvitedElections] = React.useState([])
   const [appliedElections, setAppliedElections] = React.useState([])
   const [approvedElections, setApprovedElections] = React.useState([])
   const [appearedElections, setAppearedElections] = React.useState([])
@@ -39,18 +40,31 @@ const Dashboard = () => {
   },[user])
 
   React.useEffect(async ()=>{
-    if(user)
-      setAppliedElections(await getAppliedElections(user.uniqueVoterId))
+    if(voter && voter.invitations.length>0) {
+      const query = `ids=${voter.invitations.join(',')}`
+      setInvitedElections(await getElections(query))
+    }
+  },[voter])
+
+  React.useEffect(async ()=>{
+    if(user) {
+      const query = `appliedVoter=${user.uniqueVoterId}`
+      setAppliedElections(await getElections(query))
+    }
   },[user])
 
   React.useEffect(async ()=>{
-    if(user)
-      setApprovedElections(await getApprovedElections(user.uniqueVoterId))
+    if(user) {
+      const query = `approvedVoter=${user.uniqueVoterId}`
+      setApprovedElections(await getElections(query))
+    }
   },[user])
 
   React.useEffect(async ()=>{
-    if(user)
-      setAppearedElections(await getAppearedElections(user.uniqueVoterId))
+    if(user) {
+      const query = `appearedVoter=${user.uniqueVoterId}`
+      setAppearedElections(await getElections(query))
+    }
   },[user])
 
   return (
@@ -125,15 +139,31 @@ const Dashboard = () => {
                     <Card.Header>Elections</Card.Header>
                     <Card.Body>
                       {voter &&
-                        <Tabs defaultActiveKey="approved" className="mb-3">
-                          <Tab eventKey="approved" title="Appeared">
+                        <Tabs defaultActiveKey="invited" className="mb-3">
+                          <Tab eventKey="invited" title="Invited">
+                            {
+                              invitedElections.length>0 ?
+                                <ListGroup variant="flush">
+                                  {invitedElections.map((election)=>
+                                    <Link to="#" key={election._id}>
+                                      <ListGroup.Item>
+                                        {election.title}
+                                      </ListGroup.Item>
+                                    </Link>
+                                  )}
+                                </ListGroup>
+                                :
+                                <React.Fragment>Nothing here... </React.Fragment>
+                            }
+                          </Tab>
+                          <Tab eventKey="approved" title="Approved">
                             {
                               approvedElections.length>0 ?
                                 <ListGroup variant="flush">
                                   {approvedElections.map((election)=>
-                                      <Link to="#" key={election}>
+                                      <Link to="#" key={election._id}>
                                         <ListGroup.Item>
-                                          {election}
+                                          {election.title}
                                         </ListGroup.Item>
                                       </Link>
                                   )}
@@ -142,30 +172,14 @@ const Dashboard = () => {
                                 <React.Fragment>Nothing here... </React.Fragment>
                             }
                           </Tab>
-                          <Tab eventKey="invited" title="Invited">
-                            {
-                              voter.invitations && voter.invitations.length>0 ?
-                                <ListGroup variant="flush">
-                                  {voter.invitations.map((election)=>
-                                      <Link to="#" key={election}>
-                                        <ListGroup.Item>
-                                          {election}
-                                        </ListGroup.Item>
-                                      </Link>
-                                  )}
-                                </ListGroup>
-                              :
-                                <React.Fragment>Nothing here... </React.Fragment>
-                            }
-                          </Tab>
-                          <Tab eventKey="applies" title="Applied">
+                          <Tab eventKey="applied" title="Applied">
                             {
                               appliedElections.length>0 ?
                                 <ListGroup variant="flush">
                                   {appliedElections.map((election)=>
-                                      <Link to="#" key={election}>
+                                      <Link to="#" key={election._id}>
                                         <ListGroup.Item>
-                                          {election}
+                                          {election.title}
                                         </ListGroup.Item>
                                       </Link>
                                   )}
@@ -179,9 +193,9 @@ const Dashboard = () => {
                               appearedElections.length>0 ?
                                 <ListGroup variant="flush">
                                   {appearedElections.map((election)=>
-                                      <Link to="#" key={election}>
+                                      <Link to="#" key={election._id}>
                                         <ListGroup.Item>
-                                          {election}
+                                          {election.title}
                                         </ListGroup.Item>
                                       </Link>
                                   )}

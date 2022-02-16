@@ -29,27 +29,11 @@ export const createElection = async (details, organiser) => {
   }
 };
 
-export async function getAppliedElections(uvid) {
+export async function getElections(query) {
   try {
-    return []
-  } catch (e) {
-    console.log(e)
-    return null
-  }
-}
-
-export async function getApprovedElections(uvid) {
-  try {
-    return []
-  } catch (e) {
-    console.log(e)
-    return null
-  }
-}
-
-export async function getAppearedElections(uvid) {
-  try {
-    return []
+    const {data} = await axios.get(`${BASE_URL}/elections?${query}`);
+    console.log(query, data)
+    return data.docs
   } catch (e) {
     console.log(e)
     return null
