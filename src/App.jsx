@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Container } from "react-bootstrap";
-import 'react-toastify/dist/ReactToastify.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "react-toastify/dist/ReactToastify.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { NavBar } from "./components";
@@ -12,18 +12,19 @@ import {
   SignUp,
   ElectionDetails,
   CreateElection,
-  ForgotPassword, NotFound
+  ForgotPassword,
+  NotFound,
 } from "./pages";
 
 import PrivateRoute from "./utils/PrivateRoute";
-import {ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
     <Router>
       <main className='App py-3 bg-gray'>
         <Container>
-          {/*<NavBar/>*/}
+          <NavBar />
           <Routes>
             <Route path='*' element={<NotFound />} />
             <Route exact path='/' element={<Home />} />
@@ -48,7 +49,7 @@ const App = () => {
           </Routes>
         </Container>
       </main>
-      <ToastContainer/>
+      <ToastContainer />
     </Router>
   );
 };

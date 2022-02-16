@@ -32,11 +32,11 @@ export const fetchUserDetails = async () => {
   try {
     const { data } = await axios.get(`${BASE_URL}/users/profile`, config);
 
-    return data;
+    return { ...data, error: false };
   } catch (err) {
-    console.log(err);
+    console.log(err.response);
 
-    return err;
+    return { ...err, error: true };
   }
 };
 
