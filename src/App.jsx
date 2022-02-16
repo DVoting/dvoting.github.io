@@ -14,6 +14,8 @@ import {
   CreateElection,
   ForgotPassword,
   NotFound,
+  VerifyEmail,
+  ChangePassword
 } from "./pages";
 
 import PrivateRoute from "./utils/PrivateRoute";
@@ -45,6 +47,8 @@ const App = () => {
                 path='/create-election'
                 element={<CreateElection />}
               />
+              <Route exact path='/verifyEmail' element={<VerifyEmail />} />
+              <Route exact path='/changePassword' element={<ChangePassword />} />
             </Route>
           </Routes>
         </Container>

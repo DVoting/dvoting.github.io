@@ -91,7 +91,7 @@ const Dashboard = () => {
                               user.emailVerified ?
                                 <span className="text-success">verified</span>
                               :
-                                <Link to="#">verify</Link>
+                                <Link to="/verifyEmail">verify</Link>
                             }
                           </ListGroup.Item>
                           <ListGroup.Item>UVID: {user.uniqueVoterId}</ListGroup.Item>
@@ -108,7 +108,7 @@ const Dashboard = () => {
                             </ListGroup.Item>
                           }
                           <ListGroup.Item>
-                            <Link to="#">Change Password</Link>
+                            <Link to="/changePassword">Change Password</Link>
                           </ListGroup.Item>
                         </ListGroup>
                       </React.Fragment>

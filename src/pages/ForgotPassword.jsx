@@ -5,7 +5,8 @@ import { FormContainer, Loader, Message } from "../containers";
 import { NavBar } from "../components";
 import { forgotPasswordStates } from "../data";
 import { GlobalContext } from "../context/GlobalContext";
-import { sendOTP, updatePasword, verifyOTP } from "../services/otpActions";
+import { sendOTP, verifyOTP } from "../services/otpActions";
+import { updatePasword } from "../services/userActions";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -37,9 +38,11 @@ const ForgotPassword = () => {
     switch (state) {
       case "1":
         setLoading(true);
+        const purpose = "OTP for Forgot Password";
         try {
           await sendOTP({
             email,
+            purpose
           });
           setState("2");
         } catch (error) {
