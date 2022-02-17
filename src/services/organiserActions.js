@@ -27,3 +27,27 @@ export const fetchMyOrganizations = async (user) => {
     return { ...err, error: true };
   }
 };
+
+export const deleteOrganization = async (orgId) => {
+  const token = localStorage.getItem("token");
+
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const { data } = await axios.delete(
+      `${BASE_URL}/organisers/${orgId}`,
+      config
+    );
+
+    return { ...data, error: false };
+  } catch (error) {
+    console.log(error);
+
+    return { ...error, error: true };
+  }
+};
