@@ -1,10 +1,12 @@
-import React, { useContext, useState } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import { BASE_URL } from "../constants";
 import { Message } from "../containers";
 import { GlobalContext } from "../context/GlobalContext";
 import { createElection } from "../services/electionActions";
@@ -23,6 +25,20 @@ import { createElection } from "../services/electionActions";
 */
 
 const CreateElection = () => {
+  const location = useLocation();
+
+  let orgId = location.pathname.split("/")[2];
+
+  // console.log(orgId);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const res = await axios.get(`${BASE_URL}/organisers/${orgId}`);
+
+  //     console.log(res);
+  //   })();
+  // }, []);
+
   const [details, setDetails] = useState({
     title: "",
     openTimestamp: new Date(),
