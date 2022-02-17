@@ -1,35 +1,19 @@
-import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
 import { Navigate, useLocation } from "react-router-dom";
-import { BASE_URL } from "../constants";
 import { Message } from "../containers";
 import { GlobalContext } from "../context/GlobalContext";
 import { createElection } from "../services/electionActions";
-
-/*
-    Title
-
-    Storing the time as Unix time (also known as Epoch time)
-    Refer this for time conversion - https://www.epochconverter.com/
-    Start time
-    End time
-
-    2 buttons - 
-    Discard - redirect to dashboard
-    save - Save the details, API POST hit to -> /api/election and redirect to /election/:id page
-*/
 
 const CreateElection = () => {
   const location = useLocation();
 
   let orgId = location.pathname.split("/")[2];
-
-  // console.log(orgId);
+  let orgName = location.state;
 
   // useEffect(() => {
   //   (async () => {
@@ -54,23 +38,19 @@ const CreateElection = () => {
     e.preventDefault();
 
     try {
-      const res = await createElection(details, user._id);
-
-      // console.log(res);
+      const res = await createElection(details, orgId);
 
       const { _id } = res;
       setRedirect(`/elections/${_id}`);
     } catch (err) {
       console.log(err.response);
-
       setError(err.response.data);
     }
   };
 
   const handleDiscard = (e) => {
     e.preventDefault();
-
-    setRedirect("/dashboard");
+    setRedirect(`/org/${orgId}`);
   };
 
   if (redirect) {
@@ -101,6 +81,11 @@ const CreateElection = () => {
               });
             }}
           />
+        </Form.Group>
+
+        <Form.Group className='my-4' controlId='organizer'>
+          <Form.Label>Organization Name</Form.Label>
+          <Form.Control type='text' value={orgName} disabled={true} />
         </Form.Group>
 
         <div className='my-4'>
