@@ -15,11 +15,14 @@ import {
   ForgotPassword,
   NotFound,
   VerifyEmail,
-  ChangePassword
+  ChangePassword,
+  ManageOrganizations,
 } from "./pages";
 
 import PrivateRoute from "./utils/PrivateRoute";
 import { ToastContainer } from "react-toastify";
+import OrganizerRoute from "./utils/OrganizerRoute";
+import Dummy from "./components/Dummy";
 
 const App = () => {
   return (
@@ -42,18 +45,27 @@ const App = () => {
                 path='/elections/:id'
                 element={<ElectionDetails />}
               />
+              <Route exact path='/verifyEmail' element={<VerifyEmail />} />
               <Route
                 exact
-                path='/create-election'
-                element={<CreateElection />}
+                path='/changePassword'
+                element={<ChangePassword />}
               />
-              <Route exact path='/verifyEmail' element={<VerifyEmail />} />
-              <Route exact path='/changePassword' element={<ChangePassword />} />
+
+              {/* All Organizer routes here */}
+              <Route path='/org' element={<OrganizerRoute />}>
+                <Route path='/org' element={<ManageOrganizations />} />
+                <Route path='/org/:id' element={<Dummy />} />
+                <Route
+                  path='/org/:id/create-election'
+                  element={<CreateElection />}
+                />
+              </Route>
             </Route>
           </Routes>
         </Container>
       </main>
-      <ToastContainer style={{width:"25em"}}/>
+      <ToastContainer style={{ width: "25em" }} />
     </Router>
   );
 };
