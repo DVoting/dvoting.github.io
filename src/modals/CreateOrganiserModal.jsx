@@ -2,13 +2,13 @@ import React from "react";
 import {Button, FloatingLabel, Form, FormControl, InputGroup, Modal} from "react-bootstrap";
 import {toast} from "react-toastify";
 import Message from "../utils/Message";
+import {createOrganisation} from "../services/organiserActions";
 
 const CreateOrganiserModal = (props) => {
-  const {show, setShow} = props
+  const {show, setShow, setRedirect} = props
   const [inputs, setInputs] = React.useState({
     organisationName: ''
   })
-
   const handleInput = (event)=>{
     setInputs({
       ...inputs,
@@ -16,10 +16,23 @@ const CreateOrganiserModal = (props) => {
     })
   }
 
-  const handleSubmit = (event)=> {
+  const handleSubmit = async (event)=> {
     event.preventDefault()
-    if(validInputs())
-      console.log(inputs)
+    if(!validInputs())
+      return
+
+    const res = await createOrganisation(inputs)
+
+    if(res.error){
+      console.log(res)
+      toast.error(Message(`error ${res.status}`, `${(res.data && res.data.message) || res.statusText}`), {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      return
+    }
+
+    setShow(false)
+    setRedirect('/org')
   }
 
   const validInputs = ()=>{

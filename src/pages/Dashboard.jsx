@@ -8,7 +8,7 @@ import {
   Tab,
   Tabs,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Loader } from "../containers";
 import { GlobalContext } from "../context/GlobalContext";
 import { CreateOrganiserModal } from "../modals";
@@ -23,6 +23,7 @@ const Dashboard = () => {
   const [appliedElections, setAppliedElections] = React.useState([]);
   const [approvedElections, setApprovedElections] = React.useState([]);
   const [appearedElections, setAppearedElections] = React.useState([]);
+  const [redirect, setRedirect] = React.useState(null)
 
   React.useEffect(() => {
     if (user === null) setLoading(true);
@@ -61,6 +62,9 @@ const Dashboard = () => {
       setAppearedElections(await getElections(query));
     }
   }, [user]);
+
+  if(redirect)
+    return <Navigate replace to={redirect} />
 
   return (
     <React.Fragment>
@@ -122,6 +126,7 @@ const Dashboard = () => {
                           <CreateOrganiserModal
                             show={showModal}
                             setShow={setShowModal}
+                            setRedirect={setRedirect}
                           />
                         </React.Fragment>
                       )}

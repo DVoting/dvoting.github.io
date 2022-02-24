@@ -47,7 +47,27 @@ export const deleteOrganization = async (orgId) => {
     return { ...data, error: false };
   } catch (error) {
     console.log(error);
-
     return { ...error, error: true };
   }
 };
+
+export async function createOrganisation(payload){
+  const token = localStorage.getItem("token");
+
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const {data} = await axios.post(`${BASE_URL}/organisers`, payload, config)
+    console.log(data)
+    return data
+  } catch (e) {
+    console.log(e)
+    return { ...e.response, error: true }
+  }
+
+}
