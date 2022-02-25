@@ -26,7 +26,9 @@ const NavBar = () => {
       <Navbar>
         <Container>
           <LinkContainer to={isAuth ? "/dashboard" : "/"}>
-            <Navbar.Brand>DVoting</Navbar.Brand>
+            <Navbar.Brand>
+              <h2>DVoting</h2>
+            </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Nav className='ml-auto'>
