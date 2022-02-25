@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
