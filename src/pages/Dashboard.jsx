@@ -63,157 +63,151 @@ const Dashboard = () => {
     }
   }, [user]);
 
-  if(redirect)
-    return <Navigate replace to={redirect} />
+  if(redirect) return <Navigate replace to={redirect} />
+  if(loading) return <Loader/>
 
   return (
     <React.Fragment>
-      {loading ? (
-        <Loader />
-      ) : (
-        <React.Fragment>
-          <Container>
-            <Row>
-              <Col md={12} lg={4}>
-                <Card>
-                  {user && (
-                    <React.Fragment>
-                      <Card.Header>User Profile</Card.Header>
-                      <ListGroup variant='flush'>
-                        <ListGroup.Item>
-                          Username: {user.username}
-                        </ListGroup.Item>
-                        <ListGroup.Item>Name: {user.name}</ListGroup.Item>
-                        <ListGroup.Item>
-                          E-mail: {user.email}{" "}
-                          {user.emailVerified ? (
-                            <span className='text-success'>verified</span>
-                          ) : (
-                            <Link to='/verifyEmail'>verify</Link>
-                          )}
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                          UVID: {user.uniqueVoterId}
-                        </ListGroup.Item>
-                        {voter && (
-                          <ListGroup.Item>
-                            Wallet:{" "}
-                            {voter.hasWallet ? (
-                              <span className='text-success'>assigned</span>
-                            ) : (
-                              <Link to='#'>generate</Link>
-                            )}
-                          </ListGroup.Item>
+      <Container>
+        <Row>
+          <Col md={12} lg={4}>
+            <Card>
+              {user && (
+                <React.Fragment>
+                  <Card.Header>User Profile</Card.Header>
+                  <ListGroup variant='flush'>
+                    <ListGroup.Item>
+                      Username: {user.username}
+                    </ListGroup.Item>
+                    <ListGroup.Item>Name: {user.name}</ListGroup.Item>
+                    <ListGroup.Item>
+                      E-mail: {user.email}{" "}
+                      {user.emailVerified ? (
+                        <span className='text-success'>verified</span>
+                      ) : (
+                        <Link to='/verifyEmail'>verify</Link>
+                      )}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      UVID: {user.uniqueVoterId}
+                    </ListGroup.Item>
+                    {voter && (
+                      <ListGroup.Item>
+                        Wallet:{" "}
+                        {voter.hasWallet ? (
+                          <span className='text-success'>assigned</span>
+                        ) : (
+                          <Link to='wallet'>generate</Link>
                         )}
-                        <ListGroup.Item>
-                          <Link to='/changePassword'>Change Password</Link>
-                        </ListGroup.Item>
-                      </ListGroup>
+                      </ListGroup.Item>
+                    )}
+                    <ListGroup.Item>
+                      <Link to='/changePassword'>Change Password</Link>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </React.Fragment>
+              )}
+            </Card>
+            <Card style={{ marginTop: "5%", marginBottom: "5%" }}>
+              {user && (
+                <ListGroup variant='flush'>
+                  {user.userType === "voter" && (
+                    <React.Fragment>
+                      <ListGroup.Item
+                        onClick={() => setShowModal(true)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        Register an Organisation
+                      </ListGroup.Item>
+                      <CreateOrganiserModal
+                        show={showModal}
+                        setShow={setShowModal}
+                        setRedirect={setRedirect}
+                      />
                     </React.Fragment>
                   )}
-                </Card>
-                <Card style={{ marginTop: "5%", marginBottom: "5%" }}>
-                  {user && (
-                    <ListGroup variant='flush'>
-                      {user.userType === "voter" && (
-                        <React.Fragment>
-                          <ListGroup.Item
-                            onClick={() => setShowModal(true)}
-                            style={{ cursor: "pointer" }}
-                          >
-                            Register an Organisation
-                          </ListGroup.Item>
-                          <CreateOrganiserModal
-                            show={showModal}
-                            setShow={setShowModal}
-                            setRedirect={setRedirect}
-                          />
-                        </React.Fragment>
-                      )}
-                      {user.userType === "organiser" && (
-                        <Link to='/org'>
-                          <ListGroup.Item>Manage Organizations</ListGroup.Item>
-                        </Link>
-                      )}
-                    </ListGroup>
+                  {user.userType === "organiser" && (
+                    <Link to='/org'>
+                      <ListGroup.Item>Manage Organizations</ListGroup.Item>
+                    </Link>
                   )}
-                </Card>
-              </Col>
-              <Col md={12} lg={8}>
-                <Card>
-                  <Card.Header>Elections</Card.Header>
-                  <Card.Body>
-                    {voter && (
-                      <Tabs defaultActiveKey='invited' className='mb-3'>
-                        <Tab eventKey='invited' title='Invited'>
-                          {invitedElections.length > 0 ? (
-                            <ListGroup variant='flush'>
-                              {invitedElections.map((election) => (
-                                <Link to='#' key={election._id}>
-                                  <ListGroup.Item>
-                                    {election.title}
-                                  </ListGroup.Item>
-                                </Link>
-                              ))}
-                            </ListGroup>
-                          ) : (
-                            <React.Fragment>Nothing here... </React.Fragment>
-                          )}
-                        </Tab>
-                        <Tab eventKey='approved' title='Approved'>
-                          {approvedElections.length > 0 ? (
-                            <ListGroup variant='flush'>
-                              {approvedElections.map((election) => (
-                                <Link to='#' key={election._id}>
-                                  <ListGroup.Item>
-                                    {election.title}
-                                  </ListGroup.Item>
-                                </Link>
-                              ))}
-                            </ListGroup>
-                          ) : (
-                            <React.Fragment>Nothing here... </React.Fragment>
-                          )}
-                        </Tab>
-                        <Tab eventKey='applied' title='Applied'>
-                          {appliedElections.length > 0 ? (
-                            <ListGroup variant='flush'>
-                              {appliedElections.map((election) => (
-                                <Link to='#' key={election._id}>
-                                  <ListGroup.Item>
-                                    {election.title}
-                                  </ListGroup.Item>
-                                </Link>
-                              ))}
-                            </ListGroup>
-                          ) : (
-                            <React.Fragment>Nothing here... </React.Fragment>
-                          )}
-                        </Tab>
-                        <Tab eventKey='appeared' title='Appeared'>
-                          {appearedElections.length > 0 ? (
-                            <ListGroup variant='flush'>
-                              {appearedElections.map((election) => (
-                                <Link to='#' key={election._id}>
-                                  <ListGroup.Item>
-                                    {election.title}
-                                  </ListGroup.Item>
-                                </Link>
-                              ))}
-                            </ListGroup>
-                          ) : (
-                            <React.Fragment>Nothing here... </React.Fragment>
-                          )}
-                        </Tab>
-                      </Tabs>
-                    )}
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
-        </React.Fragment>
-      )}
+                </ListGroup>
+              )}
+            </Card>
+          </Col>
+          <Col md={12} lg={8}>
+            <Card>
+              <Card.Header>Elections</Card.Header>
+              <Card.Body>
+                {voter && (
+                  <Tabs defaultActiveKey='invited' className='mb-3'>
+                    <Tab eventKey='invited' title='Invited'>
+                      {invitedElections.length > 0 ? (
+                        <ListGroup variant='flush'>
+                          {invitedElections.map((election) => (
+                            <Link to='#' key={election._id}>
+                              <ListGroup.Item>
+                                {election.title}
+                              </ListGroup.Item>
+                            </Link>
+                          ))}
+                        </ListGroup>
+                      ) : (
+                        <React.Fragment>Nothing here... </React.Fragment>
+                      )}
+                    </Tab>
+                    <Tab eventKey='approved' title='Approved'>
+                      {approvedElections.length > 0 ? (
+                        <ListGroup variant='flush'>
+                          {approvedElections.map((election) => (
+                            <Link to='#' key={election._id}>
+                              <ListGroup.Item>
+                                {election.title}
+                              </ListGroup.Item>
+                            </Link>
+                          ))}
+                        </ListGroup>
+                      ) : (
+                        <React.Fragment>Nothing here... </React.Fragment>
+                      )}
+                    </Tab>
+                    <Tab eventKey='applied' title='Applied'>
+                      {appliedElections.length > 0 ? (
+                        <ListGroup variant='flush'>
+                          {appliedElections.map((election) => (
+                            <Link to='#' key={election._id}>
+                              <ListGroup.Item>
+                                {election.title}
+                              </ListGroup.Item>
+                            </Link>
+                          ))}
+                        </ListGroup>
+                      ) : (
+                        <React.Fragment>Nothing here... </React.Fragment>
+                      )}
+                    </Tab>
+                    <Tab eventKey='appeared' title='Appeared'>
+                      {appearedElections.length > 0 ? (
+                        <ListGroup variant='flush'>
+                          {appearedElections.map((election) => (
+                            <Link to='#' key={election._id}>
+                              <ListGroup.Item>
+                                {election.title}
+                              </ListGroup.Item>
+                            </Link>
+                          ))}
+                        </ListGroup>
+                      ) : (
+                        <React.Fragment>Nothing here... </React.Fragment>
+                      )}
+                    </Tab>
+                  </Tabs>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </React.Fragment>
   );
 };
