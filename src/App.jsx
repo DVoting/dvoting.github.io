@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { NavBar } from "./components";
 import {
   Dashboard,
+  GenerateWallet,
   Home,
   Login,
   SignUp,
@@ -39,6 +40,7 @@ const App = () => {
             {/* All Private routes here */}
             <Route path='/' element={<PrivateRoute />}>
               <Route exact path='/dashboard' element={<Dashboard />} />
+              <Route exact path='/dashboard/wallet' element={<GenerateWallet />} />
               <Route
                 exact
                 path='/elections/:id'
