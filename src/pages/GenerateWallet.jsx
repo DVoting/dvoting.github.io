@@ -1,17 +1,21 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 import { Loader } from '../containers';
 import { Navigate } from "react-router-dom";
 import {Container, Row, Col, ProgressBar, Form, FloatingLabel, Button, InputGroup} from "react-bootstrap";
 import web3 from "../utils/web3";
-import { BiShow, BiHide, BiCopy } from "react-icons/bi";
+import { BiShow, BiHide, BiCopy, BiDownload } from "react-icons/bi";
 import {toast} from "react-toastify";
 import Message from "../utils/Message";
+import { signMessage } from "../utils/wallet";
+import {getVoterById, initWallet} from "../services/voterServices";
 
 const GenerateWallet = () => {
-	const { loading, isAuth, setIsAuth } = React.useContext(GlobalContext);
+	const { loading, setLoading, user } = React.useContext(GlobalContext);
+	const { walletId, setWalletId } = useContext(GlobalContext);
 
 	const [redirect, setRedirect] = React.useState(null)
+	const [voter, setVoter] = React.useState(null);
 	const [randomKey, setRandomKey] = React.useState('')
 	const [privateKey, setPrivateKey] = React.useState(null)
 	const [address, setAddress] = React.useState(null)
@@ -42,6 +46,18 @@ const GenerateWallet = () => {
 		}, 100);
 	},[])
 
+	React.useEffect(() => {
+		if (!user || !voter) setLoading(true);
+		else setLoading(false);
+
+		if (voter && voter.hasWallet) setRedirect('/dashboard')
+		console.log(user);
+	}, [user,voter]);
+
+	React.useEffect(async () => {
+		if (user) setVoter(await getVoterById(user.uniqueVoterId));
+	}, [user]);
+
 
 	const generateWallet = ()=>{
 		if(privateKey) return
@@ -66,6 +82,58 @@ const GenerateWallet = () => {
 			hideProgressBar: true,
 			toastId: "copyToast"
 		});
+	}
+
+	const download = (filename, text)=>{
+		let element = document.createElement('a');
+		element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+		element.setAttribute('download', filename);
+
+		element.style.display = 'none';
+		document.body.appendChild(element);
+
+		element.click();
+		document.body.removeChild(element);
+	}
+
+	const approveWallet = async()=> {
+		if (!walletId) {
+		toast.error(Message('No wallet connected', null), {
+			position: toast.POSITION.BOTTOM_RIGHT,
+			autoClose: 5000,
+			toastId: 'walletError',
+			closeOnClick: true,
+			pauseOnHover: false,
+			draggable: false,
+		});
+		return
+	}
+
+		let message = JSON.stringify({
+			voter:voter._id,
+			address: web3.utils.toChecksumAddress(walletId),
+		})
+		let signature = await signMessage(message)
+		if(!signature) return
+
+		let data = {
+			address: web3.utils.toChecksumAddress(walletId),
+			signature: signature
+		}
+
+		const res = await initWallet(data)
+		if(res.error){
+			console.log(res)
+			toast.error(Message(`error ${res.status}`, `${res.data || res.statusText}`), {
+				position: toast.POSITION.BOTTOM_RIGHT,
+			});
+			return
+		}
+
+		toast.success(Message('Approved Wallet', `${address}`), {
+			position: toast.POSITION.BOTTOM_RIGHT,
+		});
+		setRedirect('/dashboard')
 	}
 
 	if(redirect) return <Navigate replace to={redirect} />
@@ -134,8 +202,30 @@ const GenerateWallet = () => {
 										<Button variant="light" onClick={()=>copy(privateKey, 'Private key')}>
 											<BiCopy/>
 										</Button>
+										<Button variant="light" onClick={()=>download('key.txt', privateKey)}>
+											<BiDownload/>
+										</Button>
 									</InputGroup>
 								</Form.Group>
+								<hr/>
+								<Form.Group className="mb-3">
+									{
+										walletId.toLowerCase() === address.toLowerCase() ?
+											<Button variant="primary" onClick={async ()=>{await approveWallet()}}>
+												Approve Wallet
+											</Button>
+										:
+											<p className="alert alert-info">
+												Before proceeding, connect the above wallet by importing it's private key.
+												{' '}
+												<a href="https://metamask.zendesk.com/hc/en-us/articles/360015489331-How-to-import-an-Account"
+													target="_blank" rel="noreferrer"
+												>
+													steps
+												</a>
+											</p>
+									}
+							</Form.Group>
 							</Form>
 						}
 					</Col>

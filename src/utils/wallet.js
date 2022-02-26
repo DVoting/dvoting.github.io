@@ -48,3 +48,22 @@ export async function connectWallet(setWalletId){
 		console.log(e)
 	}
 }
+
+export async function signMessage(message){
+	console.log(message)
+
+	let [walletId] = await web3.eth.getAccounts()
+	try {
+		return await web3.eth.personal.sign(web3.utils.keccak256(message), walletId, null)
+	} catch (e) {
+		toast.error(Message(e.message.split(':')[0],e.message.split(':')[1]), {
+			position: toast.POSITION.BOTTOM_RIGHT,
+			autoClose: 5000,
+			toastId: 'signatureError',
+			closeOnClick: true,
+			pauseOnHover: false,
+			draggable: false,
+		});
+		return null
+	}
+}

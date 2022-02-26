@@ -66,7 +66,7 @@ const App = () => {
           </Routes>
         </Container>
       </main>
-      <ToastContainer style={{ width: "25em" }} />
+      <ToastContainer style={{ width: "30em" }} />
     </Router>
   );
 };
