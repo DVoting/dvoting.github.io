@@ -95,7 +95,11 @@ const Dashboard = () => {
                       <ListGroup.Item>
                         Wallet:{" "}
                         {voter.hasWallet ? (
-                          <span className='text-success'>assigned</span>
+                          <React.Fragment>
+                            <span className='text-success'>assigned</span>
+                            {' | '}
+                            Nonce: #{voter.nonce}
+                          </React.Fragment>
                         ) : (
                           <Link to='wallet'>generate</Link>
                         )}
