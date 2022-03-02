@@ -41,7 +41,7 @@ const CreateElection = () => {
       const res = await createElection(details, orgId);
 
       const { _id } = res;
-      setRedirect(`/elections/${_id}`);
+      setRedirect(`/elections/${_id}/manage`);
     } catch (err) {
       console.log(err.response);
       setError(err.response.data);

@@ -103,8 +103,6 @@ const ManageOrganizations = () => {
           })}
         </ListGroup>
       )}
-
-      {/* <Button variant='secondary'>Create an Organization</Button> */}
     </div>
   );
 };

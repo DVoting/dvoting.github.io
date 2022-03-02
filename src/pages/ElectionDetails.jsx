@@ -10,8 +10,9 @@ const ElectionDetails = () => {
 
   return (
     <div>
-      Election Details Page
-      <h1>{electionId}</h1>
+      <h1>Election Details</h1>
+      {electionId}
+      {/* <h1>{electionId}</h1> */}
     </div>
   );
 };
