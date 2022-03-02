@@ -17,6 +17,8 @@ import {
   VerifyEmail,
   ChangePassword,
   ManageOrganizations,
+  ManageElection,
+  OrganizationDetails,
 } from "./pages";
 
 import PrivateRoute from "./utils/PrivateRoute";
@@ -40,11 +42,20 @@ const App = () => {
             {/* All Private routes here */}
             <Route path='/' element={<PrivateRoute />}>
               <Route exact path='/dashboard' element={<Dashboard />} />
-              <Route exact path='/dashboard/wallet' element={<GenerateWallet />} />
+              <Route
+                exact
+                path='/dashboard/wallet'
+                element={<GenerateWallet />}
+              />
               <Route
                 exact
                 path='/elections/:id'
                 element={<ElectionDetails />}
+              />
+              <Route
+                exact
+                path='/elections/:id/manage'
+                element={<ManageElection />}
               />
               <Route exact path='/verifyEmail' element={<VerifyEmail />} />
               <Route
@@ -56,7 +67,7 @@ const App = () => {
               {/* All Organizer routes here */}
               <Route path='/org' element={<OrganizerRoute />}>
                 <Route path='/org' element={<ManageOrganizations />} />
-                <Route path='/org/:id' element={<Dummy />} />
+                <Route path='/org/:id' element={<OrganizationDetails />} />
                 <Route
                   path='/org/:id/create-election'
                   element={<CreateElection />}
