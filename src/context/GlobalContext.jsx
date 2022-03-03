@@ -9,7 +9,7 @@ export const GlobalContext = createContext({
 
 export const GlobalProvider = (props) => {
   const [walletId, setWalletId] = useState("");
-  const [chainId, setChainId] = useState(0x0)
+  const [chainId, setChainId] = useState(0x13881)
   const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(false);

@@ -8,7 +8,6 @@ export async function initWallet(setWalletId, setChainId){
 	console.log(walletDisabled)
 
 	let chainId = await web3.eth.getChainId()
-	console.log(getNetworkName(chainId))
 	setChainId(chainId)
 
 	if(window.ethereum){
