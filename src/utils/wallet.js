@@ -1,10 +1,15 @@
 import web3 from "./web3";
 import {toast} from "react-toastify";
 import Message from "./Message";
+import {getNetworkName} from "./networks";
 
-export function initWallet(setWalletId){
+export async function initWallet(setWalletId, setChainId){
 	let walletDisabled = JSON.parse(localStorage.getItem('walletDisabled'))??false
 	console.log(walletDisabled)
+
+	let chainId = await web3.eth.getChainId()
+	console.log(getNetworkName(chainId))
+	setChainId(chainId)
 
 	if(window.ethereum){
 		web3.eth.getAccounts()
@@ -18,6 +23,11 @@ export function initWallet(setWalletId){
 			let walletDisabled = JSON.parse(localStorage.getItem('walletDisabled'))??false
 			if(!walletDisabled)
 				setWalletId(accounts[0] || '')
+		})
+
+		window.ethereum.on('chainChanged', async()=>{
+			chainId = await web3.eth.getChainId()
+			setChainId(chainId)
 		})
 	}
 }

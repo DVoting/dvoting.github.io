@@ -8,9 +8,9 @@ import { GlobalContext } from "../context/GlobalContext";
 import { initWallet, connectWallet, disconnectWallet } from "../utils/wallet";
 
 const NavBar = () => {
-  const { user, setUser, isAuth, setIsAuth, setLoading } =
-    useContext(GlobalContext);
+  const { user, setUser, isAuth, setIsAuth, setLoading } = useContext(GlobalContext);
   const { walletId, setWalletId } = useContext(GlobalContext);
+  const {chainId, setChainId} = useContext(GlobalContext)
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
@@ -19,7 +19,9 @@ const NavBar = () => {
     setLoading(false);
   };
 
-  useEffect(() => initWallet(setWalletId), []);
+  useEffect(async ()=> {
+    await initWallet(setWalletId, setChainId)
+  }, []);
 
   return (
     <header>

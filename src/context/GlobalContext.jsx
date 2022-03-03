@@ -9,13 +9,20 @@ export const GlobalContext = createContext({
 
 export const GlobalProvider = (props) => {
   const [walletId, setWalletId] = useState("");
+  const [chainId, setChainId] = useState(0x0)
   const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(false);
 
   return (
     <GlobalContext.Provider
-      value={{ user, setUser, walletId, setWalletId, isAuth, setIsAuth, loading, setLoading }}
+      value={{
+        user, setUser,
+        walletId, setWalletId,
+        isAuth, setIsAuth,
+        loading, setLoading,
+        chainId, setChainId
+      }}
     >
       {props.children}
     </GlobalContext.Provider>

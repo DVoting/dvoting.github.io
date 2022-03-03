@@ -6,9 +6,10 @@ if (window.ethereum) {
   web3 = new Web3(window.ethereum);
 } else {
   console.log('MetaMask is NOT installed!');
-  const provider = new Web3.providers.HttpProvider('https://polygon-rpc.com', {
-    chainId: 137,
-    name: 'matic'
+  const rpc = 'https://speedy-nodes-nyc.moralis.io/2aa1ce4616e3c936bfbb33b8/polygon/mumbai'
+  const provider = new Web3.providers.HttpProvider(rpc, {
+    chainId: 80001,
+    name: 'Mumbai'
   })
   web3 = new Web3(provider)
 }
