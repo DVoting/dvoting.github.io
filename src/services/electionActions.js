@@ -1,9 +1,9 @@
 import axios from "axios";
 import { BASE_URL } from "../constants";
 
-export const createElection = async (details, organiser) => {
-  const token = localStorage.getItem("token");
+const token = localStorage.getItem("token");
 
+export const createElection = async (details, organiser) => {
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -37,8 +37,6 @@ export async function getElections(query) {
 }
 
 export async function updateElection(id, details) {
-  const token = localStorage.getItem("token");
-
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -98,8 +96,6 @@ export async function getCandidates(id) {
 }
 
 export async function addCandidate(id, details) {
-  const token = localStorage.getItem("token");
-
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -120,8 +116,6 @@ export async function addCandidate(id, details) {
 }
 
 export async function deleteCandidate(electionId, candidateId) {
-  const token = localStorage.getItem("token");
-
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -141,8 +135,6 @@ export async function deleteCandidate(electionId, candidateId) {
 }
 
 export async function deployElection(electionId) {
-  const token = localStorage.getItem("token");
-
   const config = {
     headers: {
       "Content-type": "application/json",

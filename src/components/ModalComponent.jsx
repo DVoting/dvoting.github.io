@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Modal } from "react-bootstrap";
 
 const ModalComponent = (props) => {
-  const { isOpen, setIsOpen, handleDelete, _id } = props;
+  const { isOpen, setIsOpen, handleDelete, _id, deleting } = props;
 
   const handleClose = () => setIsOpen(false);
 
@@ -21,8 +21,8 @@ const ModalComponent = (props) => {
         <Button variant='secondary' onClick={handleClose}>
           Cancel
         </Button>
-        <Button variant='danger' onClick={handleDelete}>
-          Delete
+        <Button variant='danger' onClick={handleDelete} disabled={deleting}>
+          {deleting ? "Deleting" : "Delete"}
         </Button>
       </Modal.Footer>
     </Modal>

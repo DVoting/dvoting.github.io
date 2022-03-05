@@ -16,6 +16,7 @@ const ManageOrganizations = () => {
   const [toDelete, setToDelete] = useState(null);
 
   const [createOrgIsOpen, setCreateOrgIsOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const { user } = useContext(GlobalContext);
   const navigate = useNavigate();
@@ -50,8 +51,10 @@ const ManageOrganizations = () => {
   };
 
   const handleDelete = async (orgId) => {
+    setDeleting(true);
     const res = await deleteOrganization(orgId);
 
+    setDeleting(false);
     if (res.error) {
       alert("Some error occured");
       return;
@@ -67,6 +70,7 @@ const ManageOrganizations = () => {
         setIsOpen={setModalIsOpen}
         _id={toDelete}
         handleDelete={() => handleDelete(toDelete)}
+        deleting={deleting}
       />
       <CreateOrganiserModal
         show={createOrgIsOpen}
