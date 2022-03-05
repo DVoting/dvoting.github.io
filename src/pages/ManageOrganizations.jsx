@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ModalComponent from "../components/ModalComponent";
 import { Loader } from "../containers";
 import { GlobalContext } from "../context/GlobalContext";
+import { CreateOrganiserModal } from "../modals";
 import {
   deleteOrganization,
   fetchMyOrganizations,
@@ -13,6 +14,8 @@ const ManageOrganizations = () => {
   const [data, setData] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [toDelete, setToDelete] = useState(null);
+
+  const [createOrgIsOpen, setCreateOrgIsOpen] = useState(false);
 
   const { user } = useContext(GlobalContext);
   const navigate = useNavigate();
@@ -26,7 +29,7 @@ const ManageOrganizations = () => {
         setData(res.docs);
       }
     })();
-  }, [user, modalIsOpen]);
+  }, [user, modalIsOpen, createOrgIsOpen]);
 
   if (!data) {
     return (
@@ -47,7 +50,6 @@ const ManageOrganizations = () => {
   };
 
   const handleDelete = async (orgId) => {
-    console.log("delete called");
     const res = await deleteOrganization(orgId);
 
     if (res.error) {
@@ -66,11 +68,20 @@ const ManageOrganizations = () => {
         _id={toDelete}
         handleDelete={() => handleDelete(toDelete)}
       />
-      <h1>Manage My Organizations</h1>
+      <CreateOrganiserModal
+        show={createOrgIsOpen}
+        setShow={setCreateOrgIsOpen}
+        setRedirect={() => {}}
+        // setRedirect={useNavigate}
+      />
+      <h2>Manage My Organizations</h2>
+      <Button onClick={() => setCreateOrgIsOpen(true)}>
+        Create Organization
+      </Button>
       {data.length === 0 ? (
         <h3>No Organizations found!!</h3>
       ) : (
-        <ListGroup as='ol' numbered className=''>
+        <ListGroup as='ol' numbered className='my-4'>
           {data?.map((item) => {
             const { organisationName, _id } = item;
             return (

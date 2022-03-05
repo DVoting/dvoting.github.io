@@ -25,18 +25,21 @@ const CreateElection = () => {
 
   const [details, setDetails] = useState({
     title: "",
-    openTimestamp: new Date(),
-    closeTimestamp: new Date(),
+    openTimestamp: new Date().addHours(0.5),
+    closeTimestamp: new Date().addHours(1),
   });
 
   const [redirect, setRedirect] = useState(null);
   const [error, setError] = useState(null);
+
+  const [saving, setSaving] = useState(false);
 
   const { user } = useContext(GlobalContext);
 
   const handleSave = async (e) => {
     e.preventDefault();
 
+    setSaving(true);
     try {
       const res = await createElection(details, orgId);
 
@@ -46,6 +49,7 @@ const CreateElection = () => {
       console.log(err.response);
       setError(err.response.data);
     }
+    setSaving(false);
   };
 
   const handleDiscard = (e) => {
@@ -94,9 +98,7 @@ const CreateElection = () => {
           <DateTimePicker
             className='w-100'
             onChange={(newValue) => {
-              setDetails((prev) => {
-                return { ...prev, openTimestamp: newValue };
-              });
+              setDetails((prev) => ({ ...prev, openTimestamp: newValue }));
             }}
             value={details.openTimestamp}
             minDate={new Date()}
@@ -115,7 +117,7 @@ const CreateElection = () => {
               });
             }}
             value={details.closeTimestamp}
-            minDate={details.openTimestamp}
+            minDate={new Date()}
           />
         </div>
 
@@ -126,8 +128,13 @@ const CreateElection = () => {
             Discard
           </Button>
 
-          <Button variant='success' type='submit' className='mx-4 px-4'>
-            Save
+          <Button
+            variant='success'
+            type='submit'
+            className='mx-4 px-4'
+            disabled={saving}
+          >
+            {saving ? "Saving..." : "Save"}
           </Button>
         </div>
       </Form>
