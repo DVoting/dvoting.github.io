@@ -1,8 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../constants";
 
-const token = localStorage.getItem("token");
-
 export const login = async (user) => {
   try {
     const config = {
@@ -22,6 +20,7 @@ export const login = async (user) => {
 
 // A util function to populate user details, by making an API call
 export const fetchUserDetails = async () => {
+  const token = localStorage.getItem("token");
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -58,6 +57,7 @@ export const signup = async (user) => {
 };
 
 export const updateUserVerified = async (user) => {
+  const token = localStorage.getItem("token");
   try {
     const config = {
       headers: {

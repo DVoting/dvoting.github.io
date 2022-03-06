@@ -1,10 +1,9 @@
 import axios from "axios";
 import { BASE_URL } from "../constants";
 
-const token = localStorage.getItem("token");
-
 // A util function to populate user details, by making an API call
 export const fetchMyOrganizations = async (user) => {
+  const token = localStorage.getItem("token");
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -29,6 +28,7 @@ export const fetchMyOrganizations = async (user) => {
 };
 
 export const deleteOrganization = async (orgId) => {
+  const token = localStorage.getItem("token");
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -50,6 +50,7 @@ export const deleteOrganization = async (orgId) => {
 };
 
 export async function createOrganisation(payload) {
+  const token = localStorage.getItem("token");
   const config = {
     headers: {
       "Content-type": "application/json",

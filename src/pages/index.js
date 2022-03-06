@@ -12,6 +12,7 @@ export { default as OrganizationDetails } from "./OrganizationDetails";
 export { default as ElectionDetails } from "./ElectionDetails";
 export { default as CreateElection } from "./CreateElection";
 export { default as ManageElection } from "./ManageElection";
+export { default as ElectionResults } from "./ElectionResults";
 
 export { default as ForgotPassword } from "./ForgotPassword";
 export { default as NotFound } from "./NotFound";
