@@ -1,4 +1,4 @@
-import {Alert, Container} from "react-bootstrap";
+import { Alert, Container } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -19,17 +19,18 @@ import {
   ManageOrganizations,
   ManageElection,
   OrganizationDetails,
+  ElectionResults,
 } from "./pages";
 import { GlobalContext } from "./context/GlobalContext";
-import {getNetworkName} from "./utils/networks";
+import { getNetworkName } from "./utils/networks";
 import PrivateRoute from "./utils/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import OrganizerRoute from "./utils/OrganizerRoute";
 import Dummy from "./components/Dummy";
-import {useContext} from "react";
+import { useContext } from "react";
 
 const App = () => {
-  const {chainId, setChainId} = useContext(GlobalContext)
+  const { chainId, setChainId } = useContext(GlobalContext);
 
   return (
     <Router>
@@ -37,15 +38,27 @@ const App = () => {
         <Container>
           <NavBar />
         </Container>
-          {chainId !== 0x13881 && <p className="alert alert-warning text-center" style={{padding:0, marginTop:0}}>
-              You are currently on <span className="fw-bold">{getNetworkName(chainId)}</span>,
-              please switch to <span className="fw-bold">{getNetworkName(0x13881)}</span>.
-              You can follow these <span>
-                <a className="fw-bold" target="_blank" rel="noreferrer"
-                   href="https://docs.polygon.technology/docs/develop/metamask/config-polygon-on-metamask/"
-                >steps</a>
-              </span>
-          </p>}
+        {chainId !== 0x13881 && (
+          <p
+            className='alert alert-warning text-center'
+            style={{ padding: 0, marginTop: 0 }}
+          >
+            You are currently on{" "}
+            <span className='fw-bold'>{getNetworkName(chainId)}</span>, please
+            switch to <span className='fw-bold'>{getNetworkName(0x13881)}</span>
+            . You can follow these{" "}
+            <span>
+              <a
+                className='fw-bold'
+                target='_blank'
+                rel='noreferrer'
+                href='https://docs.polygon.technology/docs/develop/metamask/config-polygon-on-metamask/'
+              >
+                steps
+              </a>
+            </span>
+          </p>
+        )}
         <Container>
           <Routes>
             <Route path='*' element={<NotFound />} />
@@ -66,6 +79,11 @@ const App = () => {
                 exact
                 path='/elections/:id'
                 element={<ElectionDetails />}
+              />
+              <Route
+                exact
+                path='/elections/:id/result'
+                element={<ElectionResults />}
               />
               <Route
                 exact

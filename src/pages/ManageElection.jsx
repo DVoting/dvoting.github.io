@@ -23,6 +23,10 @@ const ManageElection = () => {
   const [loading, setLoading] = useState(false);
   const [flag, setFlag] = useState(false);
 
+  const [saving, setSaving] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const [deploying, setDeploying] = useState(false);
+
   const candidate = useRef("");
   const saved = useRef(true);
 
@@ -84,6 +88,7 @@ const ManageElection = () => {
   const handleSave = async (e) => {
     e.preventDefault();
 
+    setSaving(true);
     try {
       const res = await updateElection(electionId, details);
 
@@ -93,6 +98,8 @@ const ManageElection = () => {
       console.log(err.response);
       setError(err.response.data);
     }
+
+    setSaving(false);
   };
 
   const handleDiscard = (e) => {
@@ -107,6 +114,7 @@ const ManageElection = () => {
 
     if (cand == "") return;
 
+    setAdding(true);
     try {
       const res = await addCandidate(electionId, { name: cand });
     } catch (err) {
@@ -117,6 +125,9 @@ const ManageElection = () => {
 
     const res2 = await getCandidates(electionId);
     setCandidates(res2);
+
+    candidate.current.value = "";
+    setAdding(false);
   };
 
   const handleDeleteCandidate = async (id) => {
@@ -133,21 +144,27 @@ const ManageElection = () => {
   };
 
   const handleDeploy = async () => {
+    setDeploying(true);
+
     try {
       saved.current = false;
       const res = await deployElection(electionId);
       console.log(res);
+
+      toast("Election has been deployed !!", {
+        position,
+        autoClose: 5000,
+        closeOnClick: true,
+      });
     } catch (err) {
-      console.log(err.response);
-      setError(err.response.data);
+      console.log(err);
+      setError(
+        "Some Error occured while deploying the Election. Please try again after some time."
+      );
       saved.current = true;
-      return;
     }
-    toast("Election has been deployed !!", {
-      position,
-      autoClose: 5000,
-      closeOnClick: true,
-    });
+
+    setDeploying(false);
   };
 
   return (
@@ -221,7 +238,7 @@ const ManageElection = () => {
                   });
                 }}
                 value={details.closeTimestamp}
-                minDate={details.openTimestamp}
+                minDate={new Date()}
               />
             </div>
 
@@ -232,8 +249,13 @@ const ManageElection = () => {
                 Discard
               </Button>
 
-              <Button variant='success' type='submit' className='mx-4 px-4'>
-                Save
+              <Button
+                variant='success'
+                type='submit'
+                className='mx-4 px-4'
+                disabled={saving}
+              >
+                {saving ? "Saving..." : "Save"}
               </Button>
             </div>
           </Form>
@@ -251,8 +273,12 @@ const ManageElection = () => {
                 className='rounded px-3 py-2 shadow-sm mx-2'
                 style={{ outline: "none", border: "none", width: "60%" }}
               />
-              <Button className='my-3' onClick={handleAddCandidate}>
-                Add Candidate
+              <Button
+                className='my-3'
+                onClick={handleAddCandidate}
+                disabled={adding}
+              >
+                {adding ? "Adding Candidate..." : "Add Candidate"}
               </Button>
             </div>
 
@@ -274,7 +300,7 @@ const ManageElection = () => {
           if (choice) handleDeploy();
         }}
       >
-        Deploy Election
+        {deploying ? "Deploying..." : "Deploy Election"}
       </Button>
       {error && <Message variant='danger'>{error}</Message>}
     </div>

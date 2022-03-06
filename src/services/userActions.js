@@ -21,7 +21,6 @@ export const login = async (user) => {
 // A util function to populate user details, by making an API call
 export const fetchUserDetails = async () => {
   const token = localStorage.getItem("token");
-
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -58,8 +57,8 @@ export const signup = async (user) => {
 };
 
 export const updateUserVerified = async (user) => {
-  try {
   const token = localStorage.getItem("token");
+  try {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -78,14 +77,18 @@ export const updateUserVerified = async (user) => {
 
 export const updatePasword = async (emailAndPassword) => {
   try {
-      const config = {
-          headers: {
-              "Content-Type": "application/json",
-          },
-      };
-      const res = await axios.put(`${BASE_URL}/users/profile`, emailAndPassword, config);
-      return res.data;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.put(
+      `${BASE_URL}/users/profile`,
+      emailAndPassword,
+      config
+    );
+    return res.data;
   } catch (error) {
-      throw error;
+    throw error;
   }
 };

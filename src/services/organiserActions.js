@@ -4,7 +4,6 @@ import { BASE_URL } from "../constants";
 // A util function to populate user details, by making an API call
 export const fetchMyOrganizations = async (user) => {
   const token = localStorage.getItem("token");
-
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -30,7 +29,6 @@ export const fetchMyOrganizations = async (user) => {
 
 export const deleteOrganization = async (orgId) => {
   const token = localStorage.getItem("token");
-
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -51,9 +49,8 @@ export const deleteOrganization = async (orgId) => {
   }
 };
 
-export async function createOrganisation(payload){
+export async function createOrganisation(payload) {
   const token = localStorage.getItem("token");
-
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -62,12 +59,15 @@ export async function createOrganisation(payload){
   };
 
   try {
-    const {data} = await axios.post(`${BASE_URL}/organisers`, payload, config)
-    console.log(data)
-    return data
+    const { data } = await axios.post(
+      `${BASE_URL}/organisers`,
+      payload,
+      config
+    );
+    console.log(data);
+    return data;
   } catch (e) {
-    console.log(e)
-    return { ...e.response, error: true }
+    console.log(e);
+    return { ...e.response, error: true };
   }
-
 }
