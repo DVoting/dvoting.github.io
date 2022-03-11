@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Loader } from "../containers";
 import { GlobalContext } from "../context/GlobalContext";
-import electionStates from "../data/electionStates";
 import { getElectionDetails } from "../services/electionActions";
 import { getVoterById } from "../services/voterServices";
 
@@ -17,7 +16,7 @@ const ElectionDetails = () => {
   let electionId = location.pathname.split("/")[2];
   const [election, setElection] = useState({})
   const [voter, setVoter] = useState('')
-  const [electionState, setElectionState] = useState(-1)
+  const [electionState, setElectionState] = useState(0)
 
   React.useEffect(async ()=>{
     setLoading(true);
@@ -34,23 +33,27 @@ const ElectionDetails = () => {
   },[user])
 
 
-  useEffect(async () => {
-    try {
-      if (user) {
-        if(election?.appearedVoters.includes(user.uniqueVoterId))
-          setElectionState(4) // done
-        else if(voter?.signedElections?.includes(electionId))
-          setElectionState(3) // vote
-        else if(election?.approvedVoters?.includes(user.uniqueVoterId))
-          setElectionState(2) // sign wallet
-        else if(election?.appliedVoters?.includes(user.uniqueVoterId))
-          setElectionState(1) // wait for approval
-        else
-          setElectionState(0) // apply
-      }
-    }
-    catch (err) {
-      console.log(err)
+  useEffect(()=>{
+    if (user) {
+      // already voted
+      if(election?.appearedVoters.includes(user.uniqueVoterId))
+        setElectionState(5)
+
+      // vote
+      else if(voter?.signedElections?.includes(electionId))
+        setElectionState(4)
+
+      // sign wallet
+      else if(election?.approvedVoters?.includes(user.uniqueVoterId))
+        setElectionState(3)
+
+      // wait for approval
+      else if(election?.appliedVoters?.includes(user.uniqueVoterId))
+        setElectionState(2)
+
+      // apply
+      else
+        setElectionState(1)
     }
   }, [user, voter, election])
 
@@ -67,31 +70,31 @@ const ElectionDetails = () => {
       <div>
       {isAuth &&
         <React.Fragment>
-          {electionState===0 &&
+          {electionState===1 &&
             <a href={`${election.registrationLink}`} className="btn btn-primary">
               Apply
             </a>
           }
 
-          {electionState===1 &&
+          {electionState===2 &&
             <button disabled={true} className="btn btn-primary">
               Wait for approval
             </button>
           }
 
-          {electionState===2 &&
+          {electionState===3 &&
             <a href='#' className="btn btn-primary">
               Sign Wallet
             </a>
           }
 
-          {electionState===3 &&
+          {electionState===4 &&
             <a href={`/elections/${electionId}/vote`} className="btn btn-primary">
               VOTE
             </a>
           }
 
-          {electionState===4 &&
+          {electionState===5 &&
             <button className="btn btn-primary" disabled={true}>
               Already Voted!
             </button>
