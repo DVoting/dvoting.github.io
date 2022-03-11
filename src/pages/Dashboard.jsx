@@ -176,7 +176,7 @@ const Dashboard = () => {
                       )}
                     </Tab>
                     <Tab eventKey='applied' title='Applied'>
-                      {appliedElections.length > 0 ? (
+                      {appliedElections?.length > 0 ? (
                         <ListGroup variant='flush'>
                           {appliedElections.map((election) => (
                             <Link to={`/elections/${election._id}`}  key={election._id}>

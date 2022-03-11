@@ -77,11 +77,13 @@ const App = () => {
                 path='/dashboard/wallet'
                 element={<GenerateWallet />}
               />
+
               <Route
                 exact
                 path='/elections/:id'
                 element={<ElectionDetails />}
               />
+
               <Route
                 exact
                 path='/elections/:id/result'
