@@ -28,6 +28,7 @@ import { ToastContainer } from "react-toastify";
 import OrganizerRoute from "./utils/OrganizerRoute";
 import Dummy from "./components/Dummy";
 import { useContext } from "react";
+import ExploreElections from "./pages/ExploreElections";
 
 const App = () => {
   const { chainId, setChainId } = useContext(GlobalContext);
@@ -66,6 +67,7 @@ const App = () => {
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/forgotpassword' element={<ForgotPassword />} />
+            <Route path='/explore' element={<ExploreElections />} />
 
             {/* All Private routes here */}
             <Route path='/' element={<PrivateRoute />}>

@@ -10,7 +10,7 @@ import { initWallet, connectWallet, disconnectWallet } from "../utils/wallet";
 const NavBar = () => {
   const { user, setUser, isAuth, setIsAuth, setLoading } = useContext(GlobalContext);
   const { walletId, setWalletId } = useContext(GlobalContext);
-  const {chainId, setChainId} = useContext(GlobalContext)
+  const { chainId, setChainId } = useContext(GlobalContext)
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
@@ -19,7 +19,7 @@ const NavBar = () => {
     setLoading(false);
   };
 
-  useEffect(async ()=> {
+  useEffect(async () => {
     await initWallet(setWalletId, setChainId)
   }, []);
 
@@ -31,6 +31,11 @@ const NavBar = () => {
             <Navbar.Brand>
               <h2>DVoting</h2>
             </Navbar.Brand>
+          </LinkContainer>
+          <LinkContainer to='/explore' style={{ marginRight: "auto" }}>
+            <Nav.Link>
+              Explore
+            </Nav.Link>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Nav className='ml-auto'>
