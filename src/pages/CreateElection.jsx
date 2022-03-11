@@ -27,6 +27,7 @@ const CreateElection = () => {
     title: "",
     openTimestamp: new Date().addHours(0.5),
     closeTimestamp: new Date().addHours(1),
+    registrationLink: "",
   });
 
   const [redirect, setRedirect] = useState(null);
@@ -90,6 +91,20 @@ const CreateElection = () => {
         <Form.Group className='my-4' controlId='organizer'>
           <Form.Label>Organization Name</Form.Label>
           <Form.Control type='text' value={orgName} disabled={true} />
+        </Form.Group>
+
+        <Form.Group className='my-4' controlId='registrationLink'>
+          <Form.Label>Registration Link</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter Registration Link'
+            value={details.registrationLink}
+            onChange={(e) => {
+              setDetails((prev) => {
+                return { ...prev, registrationLink: e.target.value };
+              });
+            }}
+          />
         </Form.Group>
 
         <div className='my-4'>

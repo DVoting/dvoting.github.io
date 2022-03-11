@@ -209,6 +209,21 @@ const ManageElection = () => {
               />
             </Form.Group>
 
+            <Form.Group className='my-4' controlId='registrationLink'>
+              <Form.Label>Registration Link</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter Registration Link'
+                value={details.registrationLink}
+                onChange={(e) => {
+                  saved.current = false;
+                  setDetails((prev) => {
+                    return { ...prev, registrationLink: e.target.value };
+                  });
+                }}
+              />
+            </Form.Group>
+
             <div className='my-4'>
               <label>Election Start Time</label>
               <br />

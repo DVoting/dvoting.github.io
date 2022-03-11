@@ -13,7 +13,6 @@ export const createElection = async (details, organiser) => {
   const body = {
     ...details,
     organiser,
-    registrationLink: "https://dvoting.github.io",
   };
 
   try {
