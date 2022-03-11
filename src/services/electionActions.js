@@ -59,7 +59,7 @@ export async function updateElection(id, details) {
 export async function getElectionDetails(id) {
   try {
     const { data } = await axios.get(`${BASE_URL}/elections/${id}`);
-
+    return data;
     const {
       closeTimestamp,
       openTimestamp,

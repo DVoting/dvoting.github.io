@@ -5,8 +5,12 @@ import { GlobalContext } from "../context/GlobalContext";
 import { getElectionDetails } from "../services/electionActions";
 
 const ElectionDetails = () => {
-  const { loading, setLoading } = useContext(GlobalContext);
+  const { isAuth, loading, setLoading, user } = useContext(GlobalContext);
   const location = useLocation();
+
+  const signWallet = () => {
+    //TODO
+  }
 
   let electionId = location.pathname.split("/")[2];
   const [election, setElection] = useState({})
@@ -35,10 +39,16 @@ const ElectionDetails = () => {
           <br />
           Election CloseTimeStamp: {election.closeTimestamp}
           <br />
-          <a className="btn btn-primary" href={election.registrationLink}>Apply</a>
+          {
+            (isAuth && election?.approvedVoters?.includes(user.uniqueVoterId)) ?
+              < a className="btn btn-primary" onClick={signWallet}>
+                Sign Wallet</a> : < a className="btn btn-primary" href={election.registrationLink}>
+                Apply</a>
+          }
           <br />
         </div>
-      )}
+      )
+      }
     </>
   );
 };
