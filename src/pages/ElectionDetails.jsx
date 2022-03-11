@@ -1,21 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import {Navigate, useLocation} from "react-router-dom";
 import { Loader } from "../containers";
 import { GlobalContext } from "../context/GlobalContext";
 import { getElectionDetails } from "../services/electionActions";
-import { getVoterById } from "../services/voterServices";
+import {approveElection, getVoterById} from "../services/voterServices";
+import {Button} from "react-bootstrap";
+import {toast} from "react-toastify";
+import Message from "../utils/Message";
+import web3 from "../utils/web3";
+import {signMessage} from "../utils/wallet";
 
 const ElectionDetails = () => {
   const { isAuth, loading, setLoading, user } = useContext(GlobalContext);
+  const { walletId, setWalletId } = useContext(GlobalContext);
   const location = useLocation();
 
-  const signWallet = () => {
-    //TODO
-  }
-
   let electionId = location.pathname.split("/")[2];
+  const [redirect, setRedirect] = React.useState(null)
   const [election, setElection] = useState({})
-  const [voter, setVoter] = useState('')
+  const [voter, setVoter] = useState(null)
   const [electionState, setElectionState] = useState(0)
 
   React.useEffect(async ()=>{
@@ -33,7 +36,7 @@ const ElectionDetails = () => {
   },[user])
 
 
-  useEffect(()=>{
+  React.useEffect(()=>{
     if (user) {
       // already voted
       if(election?.appearedVoters?.includes(user.uniqueVoterId))
@@ -57,6 +60,48 @@ const ElectionDetails = () => {
     }
   }, [user, voter, election])
 
+  const signElection = async ()=>{
+    if (!walletId) {
+      toast.error(Message('No wallet connected', null), {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+        toastId: 'walletError',
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+      });
+      return
+    }
+
+    let message = JSON.stringify({
+      voter: voter._id,
+      election: electionId
+    })
+
+    let signature = await signMessage(message)
+    if(!signature) return
+
+    let data = {
+      address: web3.utils.toChecksumAddress(walletId),
+      signature: signature
+    }
+
+    const res = await approveElection(electionId, data)
+    if(res.error){
+      console.log(res)
+      toast.error(Message(`error ${res.status}`, `${res.data || res.statusText}`), {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      return
+    }
+
+    toast.success(Message('Signed for Election', `${election.title}`), {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+    setRedirect('/dashboard')
+  }
+
+  if(redirect) return <Navigate replace to={redirect} />
   if(loading) return <Loader/>
 
   return (
@@ -83,9 +128,9 @@ const ElectionDetails = () => {
           }
 
           {electionState===3 &&
-            <a href='#' className="btn btn-primary">
+            <Button variant='primary' onClick={async()=>{await signElection()}}>
               Sign Wallet
-            </a>
+            </Button>
           }
 
           {electionState===4 &&

@@ -35,3 +35,27 @@ export async function initWallet(payload) {
     return { ...e.response, error: true };
   }
 }
+
+export async function approveElection(electionId, payload) {
+  const token = localStorage.getItem("token");
+
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const { data } = await axios.patch(
+      `${BASE_URL}/elections/${electionId}/wallet`,
+      payload,
+      config
+    );
+    console.log(data);
+    return data;
+  } catch (e) {
+    console.log(e);
+    return { ...e.response, error: true };
+  }
+}
