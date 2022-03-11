@@ -152,7 +152,7 @@ const ManageElection = () => {
       console.log(res);
 
       toast("Election has been deployed !!", {
-        position,
+        position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 5000,
         closeOnClick: true,
       });
