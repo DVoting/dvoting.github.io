@@ -149,7 +149,7 @@ const Dashboard = () => {
                       {invitedElections.length > 0 ? (
                         <ListGroup variant='flush'>
                           {invitedElections.map((election) => (
-                            <Link to='#' key={election._id}>
+                            <Link to={`/elections/${election._id}`}  key={election._id}>
                               <ListGroup.Item>
                                 {election.title}
                               </ListGroup.Item>
@@ -164,7 +164,7 @@ const Dashboard = () => {
                       {approvedElections.length > 0 ? (
                         <ListGroup variant='flush'>
                           {approvedElections.map((election) => (
-                            <Link to='#' key={election._id}>
+                            <Link to={`/elections/${election._id}`} key={election._id}>
                               <ListGroup.Item>
                                 {election.title}
                               </ListGroup.Item>
@@ -179,7 +179,7 @@ const Dashboard = () => {
                       {appliedElections.length > 0 ? (
                         <ListGroup variant='flush'>
                           {appliedElections.map((election) => (
-                            <Link to='#' key={election._id}>
+                            <Link to={`/elections/${election._id}`}  key={election._id}>
                               <ListGroup.Item>
                                 {election.title}
                               </ListGroup.Item>
@@ -194,7 +194,7 @@ const Dashboard = () => {
                       {appearedElections.length > 0 ? (
                         <ListGroup variant='flush'>
                           {appearedElections.map((election) => (
-                            <Link to='#' key={election._id}>
+                            <Link to={`/elections/${election._id}`}  key={election._id}>
                               <ListGroup.Item>
                                 {election.title}
                               </ListGroup.Item>
