@@ -98,16 +98,16 @@ const GenerateWallet = () => {
 
 	const approveWallet = async()=> {
 		if (!walletId) {
-		toast.error(Message('No wallet connected', null), {
-			position: toast.POSITION.BOTTOM_RIGHT,
-			autoClose: 5000,
-			toastId: 'walletError',
-			closeOnClick: true,
-			pauseOnHover: false,
-			draggable: false,
-		});
-		return
-	}
+			toast.error(Message('No wallet connected', null), {
+				position: toast.POSITION.BOTTOM_RIGHT,
+				autoClose: 5000,
+				toastId: 'walletError',
+				closeOnClick: true,
+				pauseOnHover: false,
+				draggable: false,
+			});
+			return
+		}
 
 		let message = JSON.stringify({
 			voter:voter._id,
