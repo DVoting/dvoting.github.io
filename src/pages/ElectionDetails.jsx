@@ -36,7 +36,7 @@ const ElectionDetails = () => {
   useEffect(()=>{
     if (user) {
       // already voted
-      if(election?.appearedVoters.includes(user.uniqueVoterId))
+      if(election?.appearedVoters?.includes(user.uniqueVoterId))
         setElectionState(5)
 
       // vote
