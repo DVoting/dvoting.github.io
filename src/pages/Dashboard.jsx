@@ -25,6 +25,8 @@ const Dashboard = () => {
   const [appearedElections, setAppearedElections] = React.useState([]);
   const [redirect, setRedirect] = React.useState(null)
 
+  let currentTime = new Date().toISOString();
+
   React.useEffect(() => {
     if (user === null) setLoading(true);
     else setLoading(false);
@@ -39,6 +41,7 @@ const Dashboard = () => {
     if (voter && voter.invitations.length > 0) {
       const query = `ids=${voter.invitations.join(",")}`;
       setInvitedElections(await getElections(query));
+      setInvitedElections(invitedElections.filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)))
     }
   }, [voter]);
 
@@ -46,6 +49,7 @@ const Dashboard = () => {
     if (user) {
       const query = `appliedVoter=${user.uniqueVoterId}`;
       setAppliedElections(await getElections(query));
+      setAppliedElections(appliedElections.filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)))
     }
   }, [user]);
 
@@ -53,6 +57,7 @@ const Dashboard = () => {
     if (user) {
       const query = `approvedVoter=${user.uniqueVoterId}`;
       setApprovedElections(await getElections(query));
+      setApprovedElections(approvedElections.filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)))
     }
   }, [user]);
 
@@ -60,6 +65,7 @@ const Dashboard = () => {
     if (user) {
       const query = `appearedVoter=${user.uniqueVoterId}`;
       setAppearedElections(await getElections(query));
+      setAppearedElections(appearedElections.filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)))
     }
   }, [user]);
 
