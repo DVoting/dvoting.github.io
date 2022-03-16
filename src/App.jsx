@@ -29,6 +29,7 @@ import OrganizerRoute from "./utils/OrganizerRoute";
 import Dummy from "./components/Dummy";
 import { useContext } from "react";
 import ExploreElections from "./pages/ExploreElections";
+import ElectionVoting from "./pages/ElectionVoting";
 
 const App = () => {
   const { chainId, setChainId } = useContext(GlobalContext);
@@ -83,7 +84,11 @@ const App = () => {
                 path='/elections/:id'
                 element={<ElectionDetails />}
               />
-
+              <Route
+                exact
+                path='/elections/:id/vote'
+                element={<ElectionVoting />}
+              />
               <Route
                 exact
                 path='/elections/:id/result'
