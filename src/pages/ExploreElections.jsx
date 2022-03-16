@@ -19,7 +19,6 @@ const ExploreElections = () => {
         let currentTime = new Date().toISOString();
         try {
             setElections(await getElections(""));
-            console.log(elections[0].openTimestamp, elections[0].closeTimestamp, currentTime);
             setActiveElections(elections.filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)));
             setUpcomingElections(elections.filter(election => (election.openTimestamp > currentTime && election.closeTimestamp > currentTime)));
         }
