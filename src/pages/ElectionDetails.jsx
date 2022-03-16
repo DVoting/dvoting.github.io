@@ -111,9 +111,9 @@ const ElectionDetails = () => {
       <h1>Election Details</h1>
       Election Title: {election.title}
       <br />
-      OpenTimeStamp: {election.openTimestamp}
+      OpenTimeStamp: {new Date(election.openTimestamp).toString().split('G')[0]}
       <br />
-      Election CloseTimeStamp: {election.closeTimestamp}
+      Election CloseTimeStamp: {new Date(election.closeTimestamp).toString().split('G')[0]}
       <div>
         {isAuth &&
           <React.Fragment>
