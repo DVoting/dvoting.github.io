@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Card, Col, Row } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
+import Election from "../components/Election";
 import { Loader } from "../containers";
 import { GlobalContext } from "../context/GlobalContext";
 import { getElections } from "../services/electionActions";
@@ -26,13 +28,13 @@ const ExploreElections = () => {
             {loading ? (
                 <Loader />
             ) : (
-                <div>
+                <Row>
                     {elections.map((election) =>
-                        <div>
-                            <a href={`elections/${election._id}`}>{election.title}</a>
-                        </div>
+                        <Col key={election._id} sm={12} md={6} lg={4} xl={3}>
+                            <Election election={election} />
+                        </Col>
                     )}
-                </div>
+                </Row>
             )}
         </>
     );

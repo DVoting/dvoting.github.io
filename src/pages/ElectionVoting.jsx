@@ -62,6 +62,14 @@ const ElectionVoting = () => {
                     </Card>
                 </Col>
                 <Col md={6}>
+                    {selectedCandidate ? `Selected Candidate is ${selectedCandidate.name} ` : `Click on a candidate to VOTE`}
+                    {selectedCandidate
+                        &&
+                        <Button variant="primary" onClick={() => handleVote} className='my-2'>
+                            Vote
+                        </Button>
+                    }
+                    <br />
                     <Card style={{ width: '36rem' }}>
                         <Card.Body>
                             <Card.Title>Candidates</Card.Title>
@@ -76,14 +84,6 @@ const ElectionVoting = () => {
                             ))}
                         </Card.Body>
                     </Card>
-                    <br />
-                    {selectedCandidate ? `Selected Candidate is ${selectedCandidate.name} ` : `Click on a candidate to VOTE`}
-                    {selectedCandidate
-                        &&
-                        <Button variant="primary" onClick={() => handleVote}>
-                            Vote
-                        </Button>
-                    }
                 </Col>
             </Row>
         )}
