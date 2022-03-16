@@ -11,17 +11,23 @@ const ExploreElections = () => {
     const location = useLocation();
 
     const [elections, setElections] = useState([])
+    const [activeElections, setActiveElections] = useState([])
+    const [upcomingElections, setUpcomingElections] = useState([])
 
     useEffect(async () => {
         setLoading(true);
+        let currentTime = new Date().toISOString();
         try {
             setElections(await getElections(""));
+            console.log(elections[0].openTimestamp, elections[0].closeTimestamp, currentTime);
+            setActiveElections(elections.filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)));
+            setUpcomingElections(elections.filter(election => (election.openTimestamp > currentTime && election.closeTimestamp > currentTime)));
         }
         catch (err) {
             console.log(err)
         }
         setLoading(false);
-    }, [])
+    }, [elections])
 
     return (
         <>
@@ -29,13 +35,29 @@ const ExploreElections = () => {
                 <Loader />
             ) : (
                 <Row>
-                    {elections.map((election) =>
-                        <Col key={election._id} sm={12} md={6} lg={4} xl={3}>
-                            <Election election={election} />
-                        </Col>
-                    )}
+                    <h2>Active Elections</h2>
+                    {
+                        activeElections.length > 0 ?
+                            activeElections.map((election) =>
+                                <Col key={election._id} sm={12} md={6} lg={4} xl={3}>
+                                    <Election election={election} click={'enabled'}/>
+                                </Col>
+                            )
+                            : <h4>No active elections!</h4>
+                    }
+                    <hr style={{border: '2px solid gray'}}/>
+                    <h2>Upcoming Elections</h2>
+                    {
+                        upcomingElections.length > 0 ?
+                            upcomingElections.map((election) =>
+                                <Col key={election._id} sm={12} md={6} lg={4} xl={3}>
+                                    <Election election={election} click={'disabled'}/>
+                                </Col>)
+                            : <h4>No upcoming elections!</h4>
+                    }
                 </Row>
-            )}
+            )
+            }
         </>
     );
 };
