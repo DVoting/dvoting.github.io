@@ -14,6 +14,7 @@ const networks = {
 }
 
 const getNetworkName = chainId => networks[chainId] || `Unknown Network (${chainId})`
+const deployedChain = 0x13881
 
 
-export {networks, getNetworkName}
+export {networks, getNetworkName, deployedChain}

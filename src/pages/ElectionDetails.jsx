@@ -141,7 +141,7 @@ const ElectionDetails = () => {
                   (currentTime > election.openTimestamp && currentTime > election.closeTimestamp) ||
                   (currentTime < election.openTimestamp && currentTime < election.closeTimestamp)
                 }>
-                  VOTE
+                  Vote
                 </Button>
                 {(currentTime > election.openTimestamp && currentTime > election.closeTimestamp) && <div style={{ color: 'red' }}>Election has finished</div>}
                 {(currentTime < election.openTimestamp && currentTime < election.closeTimestamp) && <div style={{ color: 'red' }}>Election has not started yet</div>}

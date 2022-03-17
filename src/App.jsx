@@ -22,7 +22,7 @@ import {
   ElectionResults,
 } from "./pages";
 import { GlobalContext } from "./context/GlobalContext";
-import { getNetworkName } from "./utils/networks";
+import {deployedChain, getNetworkName} from "./utils/networks";
 import PrivateRoute from "./utils/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import OrganizerRoute from "./utils/OrganizerRoute";
@@ -40,7 +40,7 @@ const App = () => {
         <Container>
           <NavBar />
         </Container>
-        {chainId !== 0x13881 && (
+        {chainId !== deployedChain && (
           <p
             className='alert alert-warning text-center'
             style={{ padding: 0, marginTop: 0 }}
