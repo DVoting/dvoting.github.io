@@ -77,8 +77,6 @@ const ElectionResults = () => {
             data={results}
             label={(props) => {
               const { dataEntry } = props;
-              console.log(props);
-
               // return `
               //     ${dataEntry.title}
               //     ${Math.round(dataEntry.percentage)}%
