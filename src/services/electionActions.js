@@ -155,3 +155,25 @@ export async function deployElection(electionId) {
     throw err;
   }
 }
+
+export async function castVote(electionId) {
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const { data } = await axios.patch(
+      `${BASE_URL}/elections/${electionId}/vote`,
+      {},
+      config
+    );
+
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}
+
