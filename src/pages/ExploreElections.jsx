@@ -13,6 +13,8 @@ const ExploreElections = () => {
     const [elections, setElections] = useState([])
     const [activeElections, setActiveElections] = useState([])
     const [upcomingElections, setUpcomingElections] = useState([])
+    const [pastElections, setPastElections] = useState([])
+
 
     useEffect(async () => {
         setLoading(true);
@@ -21,6 +23,7 @@ const ExploreElections = () => {
             setElections(await getElections(""));
             setActiveElections(elections.filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)));
             setUpcomingElections(elections.filter(election => (election.openTimestamp > currentTime && election.closeTimestamp > currentTime)));
+            setPastElections(elections.filter(election=>!activeElections.includes(election) && !upcomingElections.includes(election) ));
         }
         catch (err) {
             console.log(err)
@@ -53,6 +56,16 @@ const ExploreElections = () => {
                                     <Election election={election}/>
                                 </Col>)
                             : <h4>No upcoming elections!</h4>
+                    }
+                    <hr style={{border: '2px solid gray'}}/>
+                    <h2>Past Elections</h2>
+                    {
+                        pastElections.length > 0 ?
+                            pastElections.map((election) =>
+                                <Col key={election._id} sm={12} md={6} lg={4} xl={3}>
+                                    <Election election={election}/>
+                                </Col>)
+                            : <h4>No past elections!</h4>
                     }
                 </Row>
             )
