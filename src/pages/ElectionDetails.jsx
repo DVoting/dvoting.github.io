@@ -39,6 +39,8 @@ const ElectionDetails = () => {
 
 
   React.useEffect(() => {
+    if (election?.closeTimestamp < new Date().toISOString())
+      setRedirect('result')
     if (user) {
       // already voted
       if (election?.appearedVoters?.includes(user.uniqueVoterId))

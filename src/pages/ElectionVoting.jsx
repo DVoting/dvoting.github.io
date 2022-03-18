@@ -89,7 +89,7 @@ const ElectionVoting = () => {
             const { transactionHash } = await electionContract.methods.addVote(candidateIdx).send({ from: walletId });
             console.log(transactionHash)
 
-            const res = await deployElection(electionId);
+            const res = await castVote(electionId);
             console.log(res);
 
             toast.success(Message('Casted vote for',  selectedCandidate.name), {
