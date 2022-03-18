@@ -40,24 +40,21 @@ const Dashboard = () => {
   React.useEffect(async () => {
     if (voter && voter.invitations.length > 0) {
       const query = `ids=${voter.invitations.join(",")}`;
-      setInvitedElections(await getElections(query));
-      setInvitedElections(invitedElections.filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)))
+      setInvitedElections((await getElections(query)).filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)))
     }
   }, [voter]);
 
   React.useEffect(async () => {
     if (user) {
       const query = `appliedVoter=${user.uniqueVoterId}`;
-      setAppliedElections(await getElections(query));
-      setAppliedElections(appliedElections.filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)))
+      setAppliedElections((await getElections(query)).filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)))
     }
   }, [user]);
 
   React.useEffect(async () => {
     if (user) {
       const query = `approvedVoter=${user.uniqueVoterId}`;
-      setApprovedElections(await getElections(query));
-      setApprovedElections(approvedElections.filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)))
+      setApprovedElections((await getElections(query)).filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)))
     }
   }, [user]);
 
@@ -65,7 +62,6 @@ const Dashboard = () => {
     if (user) {
       const query = `appearedVoter=${user.uniqueVoterId}`;
       setAppearedElections(await getElections(query));
-      setAppearedElections(appearedElections.filter(election => (currentTime >= election.openTimestamp && currentTime <= election.closeTimestamp)))
     }
   }, [user]);
 
