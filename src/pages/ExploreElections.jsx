@@ -39,7 +39,7 @@ const ExploreElections = () => {
                         activeElections.length > 0 ?
                             activeElections.map((election) =>
                                 <Col key={election._id} sm={12} md={6} lg={4} xl={3}>
-                                    <Election election={election} click={'enabled'}/>
+                                    <Election election={election}/>
                                 </Col>
                             )
                             : <h4>No active elections!</h4>
@@ -50,7 +50,7 @@ const ExploreElections = () => {
                         upcomingElections.length > 0 ?
                             upcomingElections.map((election) =>
                                 <Col key={election._id} sm={12} md={6} lg={4} xl={3}>
-                                    <Election election={election} click={'disabled'}/>
+                                    <Election election={election}/>
                                 </Col>)
                             : <h4>No upcoming elections!</h4>
                     }
