@@ -81,6 +81,7 @@ const ElectionResults = () => {
               //     ${dataEntry.title}
               //     ${Math.round(dataEntry.percentage)}%
               //   `;
+              if (dataEntry.percentage === 0) return "";
               return `${Math.round(dataEntry.percentage)} %`;
             }}
             labelStyle={(index) => ({

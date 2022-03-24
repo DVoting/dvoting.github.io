@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { FormContainer, Loader, Message } from "../containers";
-import { NavBar } from "../components";
 import { login } from "../services/userActions.js";
 import { GlobalContext } from "../context/GlobalContext";
 
@@ -108,7 +107,7 @@ const Login = () => {
                     </Link>
                   </Col>
                   <Col>
-                    Forgot Password?{" "}
+                    
                     <Link
                       to={
                         redirect
@@ -116,7 +115,7 @@ const Login = () => {
                           : "/forgotpassword"
                       }
                     >
-                      Click here
+                      Forgot Password?
                     </Link>
                   </Col>
                 </Row>

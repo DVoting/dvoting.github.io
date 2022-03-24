@@ -34,40 +34,40 @@ const ExploreElections = () => {
     if(loading) return <Loader />
 
     return (
-        <React.Fragment>
+        <>
             <Row>
                 <h2>Active Elections</h2>
                 {
                     activeElections.length > 0 ?
-                      activeElections.map((election) =>
+                      activeElections?.map((election) =>
                         <Col key={election._id} sm={12} md={6} lg={4} xl={3}>
                             <Election election={election}/>
                         </Col>
                       )
                       : <h4>No active elections!</h4>
                 }
-                <hr style={{border: '2px solid gray'}}/>
+                <hr style={{border: '2px solid gray'}} className="my-3"/>
                 <h2>Upcoming Elections</h2>
                 {
                     upcomingElections.length > 0 ?
-                      upcomingElections.map((election) =>
+                      upcomingElections?.map((election) =>
                         <Col key={election._id} sm={12} md={6} lg={4} xl={3}>
                             <Election election={election}/>
                         </Col>)
                       : <h4>No upcoming elections!</h4>
                 }
-                <hr style={{border: '2px solid gray'}}/>
+                <hr style={{border: '2px solid gray'}} className="my-3"/>
                 <h2>Past Elections</h2>
                 {
                     pastElections.length > 0 ?
-                      pastElections.map((election) =>
+                      pastElections?.map((election) =>
                         <Col key={election._id} sm={12} md={6} lg={4} xl={3}>
                             <Election election={election}/>
                         </Col>)
                       : <h4>No past elections!</h4>
                 }
             </Row>
-        </React.Fragment>
+        </>
     );
 };
 
