@@ -107,7 +107,7 @@ const ElectionVoting = () => {
                 pauseOnHover: false,
                 draggable: false,
             });
-
+            setVoting(false);
             setRedirect(`/elections/${electionId}`)
 
         }
