@@ -193,9 +193,9 @@ const Dashboard = () => {
                       )}
                     </Tab>
                     <Tab eventKey='appeared' title='Appeared'>
-                      {appearedElections.length > 0 ? (
+                      {appearedElections?.length > 0 ? (
                         <ListGroup variant='flush'>
-                          {appearedElections.map((election) => (
+                          {appearedElections?.map((election) => (
                             <Link to={`/elections/${election._id}`}  key={election._id}>
                               <ListGroup.Item>
                                 {election.title}

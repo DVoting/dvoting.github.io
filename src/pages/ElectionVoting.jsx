@@ -14,6 +14,8 @@ const ElectionVoting = () => {
     const { loading, setLoading } = useContext(GlobalContext);
     const { walletId, chainId, user } = useContext(GlobalContext);
 
+    const [voting, setVoting] = useState(false)
+
     const [election, setElection] = useState({})
     const [electionContract, setElectionContract] = useState(null)
     const [candidates, setCandidates] = useState([])
@@ -25,7 +27,7 @@ const ElectionVoting = () => {
         setCurrentTime(new Date().toString())
     }, 1000)
 
-    React.useEffect(async () => {
+    useEffect(async () => {
         setLoading(true);
         try {
             console.log(electionId)
@@ -38,17 +40,19 @@ const ElectionVoting = () => {
         setLoading(false);
     }, [])
 
-    React.useEffect(()=>{
+    useEffect(()=>{
         let address = election.deploymentAddress
         setElectionContract(ElectionContract(address))
     },[election])
 
-    React.useEffect(()=>{
+    useEffect(()=>{
         if (election?.appearedVoters?.includes(user?.uniqueVoterId))
             setRedirect(`/elections/${electionId}`)
     },[election, user])
 
     const handleVote = async () => {
+
+        setVoting(true)
         if (!walletId) {
             toast.error(Message('No wallet connected', null), {
                 position: toast.POSITION.BOTTOM_RIGHT,
@@ -58,6 +62,7 @@ const ElectionVoting = () => {
                 pauseOnHover: false,
                 draggable: false,
             });
+            setVoting(false);
             return
         }
         if (chainId !== deployedChain) {
@@ -69,12 +74,14 @@ const ElectionVoting = () => {
                 pauseOnHover: false,
                 draggable: false,
             });
+            setVoting(false);
             return
         }
 
         console.log(selectedCandidate)
         console.log(election.deploymentAddress)
 
+        
         try {
             let candidates = await electionContract.methods.getCandidates().call()
             console.log(candidates)
@@ -115,10 +122,13 @@ const ElectionVoting = () => {
                 draggable: false,
             });
         }
+
+        setVoting(false);
     }
 
 
     if (redirect) return <Navigate replace to={redirect} />
+
     if (loading) return <Loader />
 
     return (
@@ -152,8 +162,8 @@ const ElectionVoting = () => {
                   {selectedCandidate ? `Selected Candidate is ${selectedCandidate.name} ` : `Click on a candidate to VOTE`}
                   {selectedCandidate
                     &&
-                    <Button variant="primary" onClick={async()=>{await handleVote()}} className='my-2'>
-                        Vote
+                    <Button variant="primary" onClick={handleVote} className='my-2'>
+                       {voting ? "Voting..." : "Vote"}
                     </Button>
                   }
                   <br />

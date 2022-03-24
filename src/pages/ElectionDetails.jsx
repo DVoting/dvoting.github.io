@@ -23,7 +23,7 @@ const ElectionDetails = () => {
 
   let currentTime = new Date().toISOString();
 
-  React.useEffect(async () => {
+  useEffect(async () => {
     setLoading(true);
 
     try {
@@ -38,7 +38,7 @@ const ElectionDetails = () => {
   }, [user])
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (election?.closeTimestamp < new Date().toISOString())
       setRedirect('result')
     if (user) {
@@ -109,7 +109,7 @@ const ElectionDetails = () => {
   if (loading) return <Loader />
 
   return (
-    <React.Fragment>
+    <>
       <h1>Election Details</h1>
       Election Title: {election.title}
       <br />
@@ -118,7 +118,7 @@ const ElectionDetails = () => {
       Election CloseTimeStamp: {new Date(election.closeTimestamp).toString().split('G')[0]}
       <div>
         {isAuth &&
-          <React.Fragment>
+          <>
             {electionState === 1 &&
               <a href={`${election.registrationLink}`} className="btn btn-primary">
                 Apply
@@ -155,10 +155,10 @@ const ElectionDetails = () => {
                 Already Voted!
               </button>
             }
-          </React.Fragment>
+          </>
         }
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 
 const Election = ({ election }) => {
     return (
-        <Card className='m-2 py-2 rounded btn-outline-dark' style={{ width: '16rem' }}>
+        <Card className='m-2 py-2 rounded ' style={{ width: '25vw' }}>
             <Card.Body>
                 <Card.Title>
                     <a href={`/elections/${election._id}`}>{election.title}</a>
