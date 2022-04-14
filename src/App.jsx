@@ -20,6 +20,7 @@ import {
   ManageElection,
   OrganizationDetails,
   ElectionResults,
+  Deposit
 } from "./pages";
 import { GlobalContext } from "./context/GlobalContext";
 import {deployedChain, getNetworkName} from "./utils/networks";
@@ -69,6 +70,7 @@ const App = () => {
             <Route path='/signup' element={<SignUp />} />
             <Route path='/forgotpassword' element={<ForgotPassword />} />
             <Route path='/explore' element={<ExploreElections />} />
+            <Route path='/deposit' element={<Deposit/>} />
 
             {/* All Private routes here */}
             <Route path='/' element={<PrivateRoute />}>
