@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getElectionDetails } from "../services/electionActions";
+import {declareResult, getElectionDetails} from "../services/electionActions";
 import Table from "react-bootstrap/Table";
 import { PieChart } from "react-minimal-pie-chart";
 
@@ -22,6 +22,15 @@ const ElectionResults = () => {
   const location = useLocation();
 
   let electionId = location.pathname.split("/")[2];
+
+  React.useEffect(async ()=>{
+    try{
+      let data = await declareResult(electionId)
+      console.log(data)
+    } catch (err){
+      console.log(err.response)
+    }
+  })
 
   useEffect(() => {
     (async () => {

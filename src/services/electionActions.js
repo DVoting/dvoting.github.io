@@ -177,3 +177,12 @@ export async function castVote(electionId) {
   }
 }
 
+export async function declareResult(electionId) {
+  try {
+    const { data } = await axios.patch(`${BASE_URL}/elections/${electionId}/declare`)
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}
+
